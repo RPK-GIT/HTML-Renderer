@@ -85,6 +85,26 @@ tools.
 See `PROGRESS.md` for the current state, design decisions and next steps.
 
 ```bash
-node --test tests/                                   # test suite
+npm test                                             # test suite (node --test)
 node tools/inspect.js output/demo_presentation.html  # screenshots + overflow scan
 ```
+
+## Slide types
+
+| type | required fields | notes |
+|---|---|---|
+| `title` | `title` | optional `subtitle`, `label`, `author`, `date` |
+| `section_summary` | `title`, `summary` | numbered rows; `{ "text", "detail?", "slide?" }` — `slide` makes the row a clickable internal link; >6 items → 2 columns |
+| `content` | `title` | optional `body`, `bullets`, `callout` |
+| `two_column` | `title`, `columns` (2) | each: `heading`, `body`/`bullets`, optional expandable `more` |
+| `three_column` | `title`, `columns` (3) | same as above |
+| `definition` | `term`, `definition` | optional `notes`, `label`; definition rendered verbatim |
+| `process` | `title`, `steps` (2–8) | `{ "label", "detail?" }`; `variant`: `auto`/`horizontal`/`snake`/`cycle`, cycle takes optional `center` |
+| `hierarchy` | `title`, `root`, `children` (≤6) | children: string or `{ "label", "children": [≤4 strings] }`; hover highlights a branch |
+| `relationship` | `title`, `nodes` (2–8), `edges` | hub auto-detected or `variant: "radial"`; optional `directed`, per-edge `label`; hover highlights connections |
+| `comparison` | `title`, `left`, `right` | each: `heading`, `points`; optional `divider` text |
+| `table` | `title`, `columns` (2–6), `rows` | optional `align` per column, `emphasize_first_column` |
+| `image_text` | `title`, `image` | `{ "path", "fit?", "caption?", "alt?" }`, `image_side`, `bullets`/`body` |
+| `takeaway` | `statement` | optional `points` (≤3), `title` |
+
+Common optional fields on content slides: `section`, `subtitle`, `intro`, `source`.
