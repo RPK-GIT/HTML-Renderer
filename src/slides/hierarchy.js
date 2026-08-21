@@ -5,6 +5,9 @@
  * Also supports the "principles_explorer" visual mode: a split-panel
  * interactive layout with group cards on the left and a detail / source
  * annotation panel on the right.
+ *
+ * Also supports the "annotated_hierarchy" visual mode: the same SVG tree
+ * as default but with clickable nodes that show a floating source popover.
  */
 
 import { slideHeader, diagramRegion, bodyTop } from '../components.js';
@@ -39,6 +42,10 @@ export function render(slide, ctx) {
     // unknown targets: silently skip (validated elsewhere)
   }
 
+  // Build annotatedLabels set from source_annotations keys
+  const annotations = ctx.visual?.source_annotations ?? {};
+  const annotatedLabels = new Set(Object.keys(annotations));
+
   const region = diagramRegion(slide, ctx.theme);
   const { svg, problems } = hierarchySvg(slide, {
     width: region.width,
@@ -46,8 +53,19 @@ export function render(slide, ctx) {
     theme: ctx.theme,
     uid: `arrow-s${ctx.slideNo}`,
     navTargets,
+    annotatedLabels,
   });
   for (const p of problems) ctx.validator.error(ctx.slideNo, 'diagram_overflow', p);
+
+  // When annotations exist, inject data attributes into SVG and add a data island
+  if (annotatedLabels.size > 0) {
+    const svgWithAttr = svg.replace('<svg ', `<svg data-slide-no="${ctx.slideNo}" data-annotated="true" `);
+    const annotationsJson = JSON.stringify(annotations).replace(/<\//g, '<\/');
+    return `
+${slideHeader(slide, ctx)}
+<script type="application/json" id="ann-data-${ctx.slideNo}">${annotationsJson}</script>
+<div class="s-body" style="top: ${region.top}px;">${svgWithAttr}</div>`;
+  }
 
   return `
 ${slideHeader(slide, ctx)}
@@ -83,7 +101,7 @@ function renderPrinciplesExplorer(slide, ctx) {
 
   // Safely embed annotations as a JSON data island (not executed by browser).
   // Replace </ to prevent accidental </script> from closing the tag.
-  const annotationsJson = JSON.stringify(annotations).replace(/<\//g, '<\\/');
+  const annotationsJson = JSON.stringify(annotations).replace(/<\//g, '<\/');
 
   const top = bodyTop(slide, ctx.theme);
 

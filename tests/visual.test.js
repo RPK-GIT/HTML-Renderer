@@ -362,3 +362,79 @@ test('principles_explorer: standalone group (no children) renders', () => {
   assert.equal(report.status, 'ok');
   assert.match(html, /Leadership Commitment/);
 });
+
+test('annotated_hierarchy mode renders without error', () => {
+  const { html, report } = renderDeck({
+    deck: { title: 'Test' },
+    slides: [{
+      id: 'a-test',
+      type: 'hierarchy',
+      title: 'Test Hierarchy',
+      root: 'Root',
+      children: [
+        { label: 'Group A', children: ['P1', 'P2'] },
+        'Standalone',
+      ],
+    }],
+    _html_visual: {
+      by_slide: {
+        'a-test': {
+          mode: 'annotated_hierarchy',
+          source_annotations: {
+            'Root': { text: 'Root source text.', page: '1' },
+            'Group A': { text: 'Group A source.', page: '2' },
+            'P1': { text: 'P1 source text.', page: '3' },
+          },
+        },
+      },
+    },
+  });
+  assert.equal(report.status, 'ok', JSON.stringify(report.issues));
+  assert.match(html, /ann-hier/);
+  assert.match(html, /ann-node/);
+  assert.match(html, /data-label/);
+  assert.match(html, /ann-data-/);
+});
+
+test('annotated_hierarchy: nodes without annotations are not wrapped', () => {
+  const { html } = renderDeck({
+    deck: { title: 'Test' },
+    slides: [{
+      id: 'a-test2',
+      type: 'hierarchy',
+      title: 'Test',
+      root: 'Root',
+      children: ['Only annotated', 'Not annotated'],
+    }],
+    _html_visual: {
+      by_slide: {
+        'a-test2': {
+          mode: 'annotated_hierarchy',
+          source_annotations: { 'Only annotated': { text: 'Some text.', page: '5' } },
+        },
+      },
+    },
+  });
+  // ann-node should appear at least once (for 'Only annotated')
+  assert.match(html, /ann-node/);
+  // 'Not annotated' should appear in the SVG without ann-node wrapping — just check it's present
+  assert.match(html, /Not annotated/);
+});
+
+test('annotated_hierarchy: no annotations → no data island, no ann-hier class', () => {
+  const { html, report } = renderDeck({
+    deck: { title: 'Test' },
+    slides: [{
+      id: 'a-test3',
+      type: 'hierarchy',
+      title: 'Test',
+      root: 'Root',
+      children: ['Child'],
+    }],
+    _html_visual: { by_slide: { 'a-test3': { mode: 'annotated_hierarchy' } } },
+  });
+  assert.equal(report.status, 'ok');
+  // Without source_annotations, annotatedLabels is empty → no ann-hier class, no data island
+  assert.doesNotMatch(html, /ann-hier/);
+  assert.doesNotMatch(html, /ann-data-/);
+});

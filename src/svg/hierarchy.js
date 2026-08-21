@@ -9,7 +9,7 @@
 
 import { fittedText, nodeRect, svgOpen, estWidth } from './core.js';
 
-export function hierarchySvg(slide, { width: W, height: H, theme: t, uid, navTargets = {} }) {
+export function hierarchySvg(slide, { width: W, height: H, theme: t, uid, navTargets = {}, annotatedLabels = new Set() }) {
   const problems = [];
   const report = (msg) => problems.push(msg);
 
@@ -36,12 +36,19 @@ export function hierarchySvg(slide, { width: W, height: H, theme: t, uid, navTar
 
   const parts = [];
   const rootX = W / 2 - rootW / 2;
-  parts.push(nodeRect({ x: rootX, y: y0, w: rootW, h: rootH, fill: t.navy, rx: t.cornerRadius }));
-  const rootText = fittedText(String(slide.root), {
+
+  // Root node — wrap in ann-node group if annotated
+  const rootLabel = String(slide.root);
+  const rootRect = nodeRect({ x: rootX, y: y0, w: rootW, h: rootH, fill: t.navy, rx: t.cornerRadius });
+  const rootTextObj = fittedText(rootLabel, {
     cx: W / 2, cy: y0 + rootH / 2, width: rootW - 32, size: 18, minSize: 14, bold: true, color: t.white, maxLines: 2,
   });
-  parts.push(rootText.svg);
-  if (!rootText.fits) report('root label does not fit');
+  if (annotatedLabels.has(rootLabel)) {
+    parts.push(`<g class="ann-node" data-label="${rootLabel.replace(/"/g, '&quot;')}">${rootRect}${rootTextObj.svg}</g>`);
+  } else {
+    parts.push(rootRect + rootTextObj.svg);
+  }
+  if (!rootTextObj.fits) report('root label does not fit');
 
   const childY = y0 + rootH + linkZone;
   const busY = y0 + rootH + linkZone / 2;
@@ -62,15 +69,17 @@ export function hierarchySvg(slide, { width: W, height: H, theme: t, uid, navTar
 
     const childLabel = String(child.label ?? '');
     const childGoto = navTargets[childLabel];
-    const childRectSvg = nodeRect({ x, y: childY, w: colW, h: childH, fill: t.blue, rx: t.cornerRadius });
+    const childRect = nodeRect({ x, y: childY, w: colW, h: childH, fill: t.blue, rx: t.cornerRadius });
     const label = fittedText(childLabel, {
       cx, cy: childY + childH / 2, width: colW - 26, size: 16, minSize: 12, bold: true, color: t.white, maxLines: 2,
     });
     if (!label.fits) report(`child ${i + 1} label does not fit`);
     if (childGoto !== undefined) {
-      branch.push(`<g data-goto="${childGoto}" style="cursor:pointer;">${childRectSvg}${label.svg}</g>`);
+      branch.push(`<g data-goto="${childGoto}" style="cursor:pointer;">${childRect}${label.svg}</g>`);
+    } else if (annotatedLabels.has(childLabel)) {
+      branch.push(`<g class="ann-node" data-label="${childLabel.replace(/"/g, '&quot;')}">${childRect}${label.svg}</g>`);
     } else {
-      branch.push(childRectSvg);
+      branch.push(childRect);
       branch.push(label.svg);
     }
 
@@ -81,16 +90,19 @@ export function hierarchySvg(slide, { width: W, height: H, theme: t, uid, navTar
       const gw = colW - 24;
       const lineTop = j === 0 ? childY + childH : gy - gcGap;
       branch.push(`<line x1="${cx.toFixed(1)}" y1="${lineTop.toFixed(1)}" x2="${cx.toFixed(1)}" y2="${gy.toFixed(1)}" stroke="${t.blue}" stroke-width="${t.strokeWidth}"/>`);
-      const gcRectSvg = nodeRect({ x: gx, y: gy, w: gw, h: gcH, fill: t.lightBlue, rx: 6 });
-      const gcText = fittedText(gc, {
+      const gcLabel = gc;
+      const gcRect = nodeRect({ x: gx, y: gy, w: gw, h: gcH, fill: t.lightBlue, rx: 6 });
+      const gcText = fittedText(gcLabel, {
         cx, cy: gy + gcH / 2, width: gw - 20, size: 13.5, minSize: 11, color: t.navy, maxLines: 2,
       });
       if (!gcText.fits) report(`item "${gc}" under child ${i + 1} does not fit`);
       const gcGoto = navTargets[gc];
       if (gcGoto !== undefined) {
-        branch.push(`<g data-goto="${gcGoto}" style="cursor:pointer;">${gcRectSvg}${gcText.svg}</g>`);
+        branch.push(`<g data-goto="${gcGoto}" style="cursor:pointer;">${gcRect}${gcText.svg}</g>`);
+      } else if (annotatedLabels.has(gcLabel)) {
+        branch.push(`<g class="ann-node" data-label="${gcLabel.replace(/"/g, '&quot;')}">${gcRect}${gcText.svg}</g>`);
       } else {
-        branch.push(gcRectSvg);
+        branch.push(gcRect);
         branch.push(gcText.svg);
       }
     });
@@ -98,8 +110,13 @@ export function hierarchySvg(slide, { width: W, height: H, theme: t, uid, navTar
     parts.push(`<g class="h-branch">${branch.join('')}</g>`);
   });
 
+  const hasAnnotations = annotatedLabels.size > 0;
+  const svgClass = hasAnnotations
+    ? `class="hier ann-hier" aria-label="Hierarchy diagram"`
+    : `class="hier" aria-label="Hierarchy diagram"`;
+
   const svg = [
-    svgOpen(W, H, `class="hier" aria-label="Hierarchy diagram"`),
+    svgOpen(W, H, svgClass),
     parts.join('\n'),
     '</svg>',
   ].join('\n');

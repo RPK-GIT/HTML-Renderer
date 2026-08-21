@@ -11,7 +11,7 @@
 
 /** Known slide types and the modes they support. */
 export const KNOWN_MODES = {
-  hierarchy: ['interactive_hierarchy', 'principles_explorer'],
+  hierarchy: ['interactive_hierarchy', 'principles_explorer', 'annotated_hierarchy'],
   process: ['sequential_reveal'],
   // all other types have no special modes yet
 };

@@ -274,6 +274,38 @@ body.overview #hud { display: none; }
 .prin-source-ref { color: var(--light-blue); font-size: ${t.smallSize - 2}px; }
 .prin-reset { background: transparent; border: none; color: var(--blue); font-size: ${t.smallSize}px; cursor: pointer; padding: 0; margin-bottom: 10px; font-family: var(--font); text-decoration: underline; }
 .prin-reset:hover { color: var(--navy); }
+
+/* ---- annotated hierarchy: node click affordance ---- */
+@media screen {
+  svg[data-annotated] g.ann-node { cursor: pointer; }
+  svg[data-annotated] g.ann-node rect,
+  svg[data-annotated] g.ann-node path { transition: filter 140ms ease; }
+  svg[data-annotated] g.ann-node:hover rect,
+  svg[data-annotated] g.ann-node:hover path { filter: brightness(1.18); }
+}
+
+/* ---- annotation popover ---- */
+#ann-popover {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  width: 340px;
+  max-width: 90vw;
+  background: var(--navy);
+  color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(14, 58, 102, 0.45);
+  padding: 18px 20px 16px;
+  pointer-events: auto;
+}
+#ann-popover.visible { display: block; }
+.ann-pop-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.ann-pop-label { color: var(--light-blue); font-weight: bold; font-size: ${t.smallSize}px; letter-spacing: 0.06em; text-transform: uppercase; flex: 1; }
+.ann-pop-close { background: transparent; border: 1px solid rgba(217,232,245,0.4); border-radius: 50%; color: var(--light-blue); width: 22px; height: 22px; font-size: 14px; line-height: 1; cursor: pointer; flex: none; display: flex; align-items: center; justify-content: center; font-family: var(--font); }
+.ann-pop-close:hover { background: rgba(217,232,245,0.15); }
+.ann-pop-text { font-style: italic; font-size: ${t.smallSize - 1}px; line-height: 1.55; color: var(--white); margin-bottom: 12px; }
+.ann-pop-ref { font-size: ${t.smallSize - 2}px; color: var(--light-blue); }
+@media print { #ann-popover { display: none !important; } }
 `;
 }
 
@@ -466,6 +498,85 @@ function navScript() {
       }
     });
   });
+
+  // Annotated hierarchy: floating source-text popover
+  (function () {
+    var popover = document.createElement('div');
+    popover.id = 'ann-popover';
+    popover.innerHTML =
+      '<div class="ann-pop-header">' +
+      '<span class="ann-pop-label" id="ann-pop-label"></span>' +
+      '<button class="ann-pop-close" id="ann-pop-close" aria-label="Close">&#215;</button>' +
+      '</div>' +
+      '<div class="ann-pop-text" id="ann-pop-text"></div>' +
+      '<div class="ann-pop-ref" id="ann-pop-ref"></div>';
+    document.body.appendChild(popover);
+
+    var popLabel = document.getElementById('ann-pop-label');
+    var popText = document.getElementById('ann-pop-text');
+    var popRef = document.getElementById('ann-pop-ref');
+    var popClose = document.getElementById('ann-pop-close');
+
+    var annotationsCache = {};
+
+    function getAnnotations(slideNo) {
+      if (annotationsCache[slideNo]) return annotationsCache[slideNo];
+      var el = document.getElementById('ann' + '-data-' + slideNo);
+      if (!el) return {};
+      try { annotationsCache[slideNo] = JSON.parse(el.textContent); }
+      catch (e) { annotationsCache[slideNo] = {}; }
+      return annotationsCache[slideNo];
+    }
+
+    function showPopover(label, annotation, anchorRect) {
+      popLabel.textContent = label;
+      popText.innerHTML = '\u201c' + String(annotation.text || '').replace(/</g, '&lt;') + '\u201d';
+      var pageStr = annotation.page ? 'DAMA-DMBOK 2nd Edition, p.\u00a0' + annotation.page : 'DAMA-DMBOK 2nd Edition';
+      popRef.textContent = pageStr;
+      popover.classList.add('visible');
+      var pw = 340;
+      var ph = popover.offsetHeight || 160;
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var left = anchorRect.right + 8;
+      var top = anchorRect.top;
+      if (left + pw > vw - 8) left = anchorRect.left - pw - 8;
+      if (left < 8) left = 8;
+      if (top + ph > vh - 8) top = vh - ph - 8;
+      if (top < 8) top = 8;
+      popover.style.left = Math.round(left) + 'px';
+      popover.style.top = Math.round(top) + 'px';
+    }
+
+    function hidePopover() {
+      popover.classList.remove('visible');
+    }
+
+    document.addEventListener('click', function (e) {
+      if (popover.classList.contains('visible') && !popover.contains(e.target)) {
+        var node = e.target.closest('g.ann-node');
+        if (!node) { hidePopover(); return; }
+      }
+      var node = e.target.closest('g.ann-node');
+      if (!node) return;
+      e.stopPropagation();
+      var label = node.getAttribute('data-label') || '';
+      var svg = node.closest('svg[data-annotated]');
+      var slideNo = svg ? svg.getAttribute('data-slide-no') : '0';
+      var anns = getAnnotations(slideNo);
+      var ann = anns[label] || { text: 'No source excerpt available for this item.', page: '' };
+      var rect = node.getBoundingClientRect();
+      showPopover(label, ann, rect);
+    });
+
+    if (popClose) popClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopover(); });
+
+    document.addEventListener('keydown', function (e) {
+      if (['ArrowLeft','ArrowRight','PageUp','PageDown','Home','End'].indexOf(e.key) !== -1) {
+        hidePopover();
+      }
+    });
+  })();
 
   // Principles explorer interaction
   document.querySelectorAll('.prin-explorer').forEach(function (explorer) {
