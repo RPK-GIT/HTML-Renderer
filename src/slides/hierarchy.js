@@ -1,14 +1,23 @@
 /**
  * Hierarchy slide: title + auto-laid-out SVG tree (root / children /
  * grandchildren). Hovering a branch highlights it in the browser.
+ *
+ * Also supports the "principles_explorer" visual mode: a split-panel
+ * interactive layout with group cards on the left and a detail / source
+ * annotation panel on the right.
  */
 
-import { slideHeader, diagramRegion } from '../components.js';
+import { slideHeader, diagramRegion, bodyTop } from '../components.js';
+import { escapeHtml as esc } from '../page.js';
 import { hierarchySvg } from '../svg/hierarchy.js';
 
 export const required = ['title', 'root', 'children'];
 
 export function render(slide, ctx) {
+  if (ctx.visual?.mode === 'principles_explorer') {
+    return renderPrinciplesExplorer(slide, ctx);
+  }
+
   const children = slide.children;
   if (!Array.isArray(children) || children.length < 1 || children.length > 6) {
     throw new Error(`"children" must be an array of 1-6 items (got ${Array.isArray(children) ? children.length : typeof children})`);
@@ -43,4 +52,50 @@ export function render(slide, ctx) {
   return `
 ${slideHeader(slide, ctx)}
 <div class="s-body" style="top: ${region.top}px;">${svg}</div>`;
+}
+
+/**
+ * Renders a hierarchy slide as a split-panel "principles explorer":
+ * - Left panel: group cards (one per child) with principle chips
+ * - Right panel: detail + source annotation text (populated by JS)
+ */
+function renderPrinciplesExplorer(slide, ctx) {
+  const annotations = ctx.visual?.source_annotations ?? {};
+  const slideNo = ctx.slideNo;
+
+  const rawChildren = slide.children ?? [];
+  const groups = rawChildren.map((c) => {
+    if (typeof c === 'string') return { label: c, principles: [] };
+    return { label: String(c.label ?? ''), principles: (c.children ?? []).map(String) };
+  });
+
+  // Left panel: group cards
+  const leftCards = groups.map((g, i) => {
+    const chips = g.principles.map((p) =>
+      `<span class="prin-chip">${esc(p)}</span>`
+    ).join('');
+    const chipsHtml = chips ? `<div class="prin-chips">${chips}</div>` : '';
+    return `<div class="prin-group-card hoverable" data-group-label="${esc(g.label)}" data-group-idx="${i}" data-principles="${esc(JSON.stringify(g.principles))}">
+  <div class="prin-group-label">${esc(g.label)}</div>
+  ${chipsHtml}
+</div>`;
+  }).join('\n');
+
+  // Safely embed annotations as a JSON data island (not executed by browser).
+  // Replace </ to prevent accidental </script> from closing the tag.
+  const annotationsJson = JSON.stringify(annotations).replace(/<\//g, '<\\/');
+
+  const top = bodyTop(slide, ctx.theme);
+
+  return `
+${slideHeader(slide, ctx)}
+<div class="s-body" style="top: ${top}px;">
+  <script type="application/json" id="prin-annotations-${slideNo}">${annotationsJson}</script>
+  <div class="prin-explorer" data-slide-no="${slideNo}">
+    <div class="prin-left">${leftCards}</div>
+    <div class="prin-right">
+      <div class="prin-right-inner" id="prin-panel-inner-${slideNo}"></div>
+    </div>
+  </div>
+</div>`;
 }

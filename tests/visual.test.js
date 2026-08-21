@@ -287,3 +287,78 @@ test('backward compat: existing demo deck renders identically (no _html_visual)'
   assert.equal(report.slide_count, spec.slides.length);
   assert.equal((html.match(/class="frame/g) || []).length, spec.slides.length);
 });
+
+// ---- principles_explorer ----
+
+test('principles_explorer mode renders without error', () => {
+  const { html, report } = renderDeck({
+    deck: { title: 'Test' },
+    slides: [{
+      id: 'p-test',
+      type: 'hierarchy',
+      title: 'Test Principles',
+      root: 'Root',
+      children: [
+        { label: 'Group A', children: ['Principle 1', 'Principle 2'] },
+        { label: 'Group B', children: ['Principle 3'] },
+        'Standalone',
+      ],
+    }],
+    _html_visual: {
+      by_slide: {
+        'p-test': {
+          mode: 'principles_explorer',
+          source_annotations: {
+            'Principle 1': { text: 'Source text for P1.', page: '42' },
+          },
+        },
+      },
+    },
+  });
+  assert.equal(report.status, 'ok', JSON.stringify(report.issues));
+  assert.match(html, /prin-explorer/);
+  assert.match(html, /Group A/);
+  assert.match(html, /Principle 1/);
+  assert.match(html, /prin-annotations/);
+});
+
+test('principles_explorer: source annotations embedded in page', () => {
+  const { html } = renderDeck({
+    deck: { title: 'Test' },
+    slides: [{
+      id: 'p-test2',
+      type: 'hierarchy',
+      title: 'Test',
+      root: 'Root',
+      children: [{ label: 'Group', children: ['P1'] }],
+    }],
+    _html_visual: {
+      by_slide: {
+        'p-test2': {
+          mode: 'principles_explorer',
+          source_annotations: { 'P1': { text: 'Source excerpt.', page: '50' } },
+        },
+      },
+    },
+  });
+  assert.match(html, /Source excerpt/);
+  assert.match(html, /prin-annotations/);
+});
+
+test('principles_explorer: standalone group (no children) renders', () => {
+  const { html, report } = renderDeck({
+    deck: { title: 'Test' },
+    slides: [{
+      id: 'p-test3',
+      type: 'hierarchy',
+      title: 'Test',
+      root: 'Root',
+      children: ['Leadership Commitment'],
+    }],
+    _html_visual: {
+      by_slide: { 'p-test3': { mode: 'principles_explorer' } },
+    },
+  });
+  assert.equal(report.status, 'ok');
+  assert.match(html, /Leadership Commitment/);
+});

@@ -246,6 +246,34 @@ body.overview #hud { display: none; }
   [data-expand] .exp-body { display: block; }
   [data-expand] > .exp-head::after { content: ''; }
 }
+
+/* ---- principles explorer layout ---- */
+.prin-explorer { display: flex; gap: 2%; height: 100%; }
+.prin-left { width: 57%; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+.prin-right { width: 40%; display: flex; flex-direction: column; border-top: 4px solid var(--blue); padding-top: 14px; overflow: hidden; }
+.prin-group-card { background: var(--light-blue); border-left: 5px solid var(--blue); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; flex-shrink: 0; transition: border-left-width 160ms ease, opacity 160ms ease; }
+.prin-group-card.selected { border-left-width: 8px; background: #e4f0fa; }
+.prin-group-card:not(.selected).dim { opacity: 0.45; }
+.prin-group-label { color: var(--navy); font-weight: bold; font-size: ${t.headingSize}px; margin-bottom: 8px; }
+.prin-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.prin-chip { background: var(--white); color: var(--navy); border: 1.5px solid var(--blue); border-radius: 20px; padding: 3px 10px; font-size: ${t.smallSize - 1}px; cursor: pointer; transition: background 140ms ease; }
+.prin-chip:hover { background: var(--blue); color: var(--white); }
+.prin-chip.selected { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.prin-right-inner { flex: 1; overflow-y: auto; padding-right: 4px; }
+.prin-default-msg { color: var(--blue); font-size: ${t.smallSize}px; line-height: 1.5; margin-top: 8px; }
+.prin-detail-group { color: var(--navy); font-weight: bold; font-size: ${t.headingSize + 2}px; margin-bottom: 12px; }
+.prin-detail-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.prin-detail-list li { display: flex; align-items: flex-start; gap: 8px; }
+.prin-detail-num { color: var(--blue); font-weight: bold; font-size: ${t.smallSize}px; min-width: 20px; padding-top: 2px; }
+.prin-detail-chip { background: var(--white); color: var(--navy); border: 1.5px solid var(--blue); border-radius: 20px; padding: 4px 12px; font-size: ${t.smallSize}px; cursor: pointer; transition: background 140ms ease; flex: 1; text-align: left; }
+.prin-detail-chip:hover { background: var(--blue); color: var(--white); }
+.prin-detail-chip.selected { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.prin-source-box { margin-top: 14px; background: var(--navy); border-radius: var(--radius); padding: 14px 16px; }
+.prin-source-label { color: var(--light-blue); font-size: ${t.smallSize - 1}px; font-weight: bold; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.prin-source-text { color: var(--white); font-size: ${t.smallSize}px; line-height: 1.5; margin-bottom: 10px; font-style: italic; }
+.prin-source-ref { color: var(--light-blue); font-size: ${t.smallSize - 2}px; }
+.prin-reset { background: transparent; border: none; color: var(--blue); font-size: ${t.smallSize}px; cursor: pointer; padding: 0; margin-bottom: 10px; font-family: var(--font); text-decoration: underline; }
+.prin-reset:hover { color: var(--navy); }
 `;
 }
 
@@ -437,6 +465,90 @@ function navScript() {
         });
       }
     });
+  });
+
+  // Principles explorer interaction
+  document.querySelectorAll('.prin-explorer').forEach(function (explorer) {
+    var slideNo = explorer.getAttribute('data-slide-no');
+    var leftCards = explorer.querySelectorAll('.prin-group-card');
+    var rightInner = document.getElementById('prin-panel-inner-' + slideNo);
+    var annotations = {};
+    try { annotations = JSON.parse(document.getElementById('prin-annotations-' + slideNo).textContent); } catch(e) {}
+
+    var selectedGroup = null;
+    var selectedPrinciple = null;
+
+    function defaultMsg() {
+      if (!rightInner) return;
+      rightInner.innerHTML = '<p class="prin-default-msg">Click a principle group on the left to explore its principles.<br>Click a principle to see the source text from DAMA-DMBOK.</p>';
+      selectedGroup = null; selectedPrinciple = null;
+    }
+
+    function showGroup(groupIdx) {
+      selectedGroup = groupIdx;
+      selectedPrinciple = null;
+      leftCards.forEach(function(c, i) {
+        c.classList.toggle('selected', i === groupIdx);
+        c.classList.toggle('dim', i !== groupIdx);
+      });
+      var card = leftCards[groupIdx];
+      var groupLabel = card.getAttribute('data-group-label');
+      var principles = JSON.parse(card.getAttribute('data-principles') || '[]');
+
+      var listItems = principles.map(function(p, i) {
+        return '<li><span class="prin-detail-num">' + (i + 1) + '</span><button class="prin-detail-chip" data-label="' + p.replace(/"/g, '&quot;') + '">' + p.replace(/</g, '&lt;') + '</button></li>';
+      }).join('');
+
+      var noPrinciples = principles.length === 0
+        ? '<p class="prin-default-msg" style="margin-top:0;">(No sub-principles — this group is a foundational commitment.)</p>'
+        : '<ul class="prin-detail-list">' + listItems + '</ul>';
+
+      if (!rightInner) return;
+      rightInner.innerHTML =
+        '<button class="prin-reset" id="prin-reset-' + slideNo + '">← All groups</button>' +
+        '<div class="prin-detail-group">' + groupLabel.replace(/</g, '&lt;') + '</div>' +
+        noPrinciples;
+
+      // Attach click to principle chips
+      rightInner.querySelectorAll('.prin-detail-chip').forEach(function(chip) {
+        chip.addEventListener('click', function(e) { e.stopPropagation(); showPrinciple(chip.getAttribute('data-label'), chip); });
+      });
+      var resetBtn = document.getElementById('prin-reset-' + slideNo);
+      if (resetBtn) resetBtn.addEventListener('click', function(e) { e.stopPropagation(); clearSelection(); defaultMsg(); });
+    }
+
+    function showPrinciple(label, chipEl) {
+      selectedPrinciple = label;
+      rightInner.querySelectorAll('.prin-detail-chip').forEach(function(c) { c.classList.toggle('selected', c === chipEl); });
+      var annotation = annotations[label] || { text: 'No source excerpt available for this item.', page: '' };
+      var existingBox = rightInner.querySelector('.prin-source-box');
+      if (existingBox) existingBox.remove();
+      var pageRef = annotation.page ? 'DAMA-DMBOK 2nd Edition, p. ' + annotation.page : 'DAMA-DMBOK 2nd Edition';
+      var box = document.createElement('div');
+      box.className = 'prin-source-box';
+      box.innerHTML =
+        '<div class="prin-source-label">Source: DAMA-DMBOK PDF</div>' +
+        '<div class="prin-source-text">“' + String(annotation.text).replace(/</g, '&lt;') + '”</div>' +
+        '<div class="prin-source-ref">' + pageRef.replace(/</g, '&lt;') + '</div>';
+      rightInner.appendChild(box);
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function clearSelection() {
+      selectedGroup = null; selectedPrinciple = null;
+      leftCards.forEach(function(c) { c.classList.remove('selected', 'dim'); });
+    }
+
+    // Attach click handlers to group cards
+    leftCards.forEach(function(card, i) {
+      card.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (selectedGroup === i) { clearSelection(); defaultMsg(); }
+        else { showGroup(i); }
+      });
+    });
+
+    defaultMsg();
   });
 
   // HUD appears on mouse activity and fades out when idle.
