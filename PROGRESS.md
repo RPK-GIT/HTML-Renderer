@@ -8,6 +8,11 @@ Design reference: https://github.com/RPK-GIT/Deterministic-Renderer (visual iden
 **All 5 phases complete.** The renderer is feature-complete, tested (39/39 passing) and
 visually inspected. Remaining work is optional polish only (see "Possible future work").
 
+**Canonical shared JSON specification documented (2026-08-21).** This renderer
+now has a formally specified input contract shared with the Deterministic PDF
+Renderer. See `CANONICAL_SLIDE_SPEC.md` and `canonical_slide_schema.json` in
+the consuming project. One JSON spec → both renderers.
+
 ## Design decisions (read this first when resuming)
 
 - **Stack:** plain Node.js (>=18, ESM), zero runtime dependencies. Playwright is a dev/export
