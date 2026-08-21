@@ -1,0 +1,15 @@
+{
+  "name": "html-slide-renderer",
+  "version": "0.1.0",
+  "description": "Generic HTML/SVG presentation renderer: structured JSON in, polished 16:9 HTML deck out (optional PDF export).",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "render": "node src/cli.js examples/demo_deck.json -o output/demo_presentation.html",
+    "export": "node export/export_pdf.js output/demo_presentation.html -o output/demo_presentation.pdf",
+    "test": "node --test tests/"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
