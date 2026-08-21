@@ -20,6 +20,9 @@ import * as takeaway from './slides/takeaway.js';
 import * as process_ from './slides/process.js';
 import * as hierarchy from './slides/hierarchy.js';
 import * as relationship from './slides/relationship.js';
+import * as comparison from './slides/comparison.js';
+import * as table from './slides/table.js';
+import * as imageText from './slides/image_text.js';
 
 /** Slide type registry. Each module exports { required, render }. */
 const REGISTRY = {
@@ -33,6 +36,9 @@ const REGISTRY = {
   process: process_,
   hierarchy,
   relationship,
+  comparison,
+  table,
+  image_text: imageText,
 };
 
 export function registeredTypes() {

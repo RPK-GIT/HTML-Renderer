@@ -116,6 +116,25 @@ body.overview .frame { pointer-events: auto; }
 svg text { font-family: var(--font); }
 .s-body > svg { display: block; margin: 0 auto; }
 
+/* ---- presentation tables ---- */
+.p-table { width: 100%; border-collapse: collapse; }
+.p-table th {
+  background: var(--navy); color: var(--white);
+  font-weight: bold;
+  padding: 11px 16px;
+}
+.p-table thead tr th:first-child { border-radius: var(--radius) 0 0 0; }
+.p-table thead tr th:last-child { border-radius: 0 var(--radius) 0 0; }
+.p-table td {
+  color: var(--navy);
+  padding: 9px 16px;
+  line-height: 1.35;
+  vertical-align: top;
+}
+.p-table tbody tr:nth-child(even) { background: var(--light-blue); }
+.p-table tbody tr:nth-child(odd) { background: var(--white); }
+.p-table tbody tr { border-bottom: 1px solid var(--light-blue); }
+
 /* ---- diagram hover highlighting (screen only) ---- */
 @media screen {
   svg [data-node], svg [data-edge], svg .h-branch { transition: opacity 180ms ease; }
@@ -266,7 +285,7 @@ body.overview #hud { display: none; }
     <span style="color: var(--blue); font-size: 20px; font-weight: bold; min-width: 34px;">05</span>
     <span style="width: 2.5px; align-self: stretch; background: var(--blue); flex: none;"></span>
     <span>
-      <span class="body-text">Tools, roles and how everything connects</span>
+      <span class="body-text">Roles and how the elements connect</span>
       
     </span>
   </div>
@@ -275,11 +294,11 @@ body.overview #hud { display: none; }
     <span style="color: var(--blue); font-size: 20px; font-weight: bold; min-width: 34px;">06</span>
     <span style="width: 2.5px; align-self: stretch; background: var(--blue); flex: none;"></span>
     <span>
-      <span class="body-text">Choosing formats and planning your next session</span>
+      <span class="body-text">Choosing formats and keeping everyone oriented</span>
       
     </span>
   </div>
-</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>2 / 9</span></span></footer>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>2 / 12</span></span></footer>
 </section>
 </div>
 <div class="frame" data-slide="3">
@@ -289,7 +308,7 @@ body.overview #hud { display: none; }
 <div class="s-body ofc" style="top: 199px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; align-content: start;">
   <div class="card card-accent hoverable" style="min-width: 0;"><h3>In the room</h3><ul class="bullets"><li>Energy is visible and self-correcting</li><li>Side conversations surface ideas</li><li>Whiteboards invite spontaneous input</li><li>Breaks happen naturally</li></ul></div>
   <div class="card card-accent hoverable" style="min-width: 0;"><h3>On a call</h3><ul class="bullets"><li>Silence hides disengagement</li><li>One voice dominates the channel</li><li>Screens encourage passive watching</li><li>Fatigue builds without movement</li></ul></div>
-</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>3 / 9</span></span></footer>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>3 / 12</span></span></footer>
 </section>
 </div>
 <div class="frame" data-slide="4">
@@ -306,7 +325,7 @@ body.overview #hud { display: none; }
     </div>
   </div>
   <div style="margin-top: 40px; padding: 0 32px;"><ul class="bullets"><li>The outcome — a decision, a plan, a prototype — is agreed before the session starts</li><li>If participants could be replaced by an email, it is a meeting, not a workshop</li></ul></div>
-</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>4 / 9</span></span></footer>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>4 / 12</span></span></footer>
 </section>
 </div>
 <div class="frame" data-slide="5">
@@ -317,7 +336,7 @@ body.overview #hud { display: none; }
   <div class="card card-accent hoverable" style="min-width: 0;"><h3>Participation</h3><p class="body-text" style="font-size: 15px;">Every attendee contributes something visible in the first ten minutes.</p><ul class="bullets small"><li>Round-robin openers</li><li>Shared canvases</li><li>Small breakout groups</li></ul></div>
   <div class="card card-accent hoverable" style="min-width: 0;"><h3>Rhythm</h3><p class="body-text" style="font-size: 15px;">Alternate intensity: never more than fifteen minutes in one mode.</p><ul class="bullets small"><li>Timeboxed exercises</li><li>Movement breaks</li><li>Energy checks</li></ul></div>
   <div class="card card-accent hoverable" style="min-width: 0;"><h3>Clarity</h3><p class="body-text" style="font-size: 15px;">At any moment everyone knows what is being asked of them.</p><ul class="bullets small"><li>One instruction at a time</li><li>Visible timers</li><li>Written prompts</li></ul></div>
-</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>5 / 9</span></span></footer>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>5 / 12</span></span></footer>
 </section>
 </div>
 <div class="frame" data-slide="6">
@@ -347,7 +366,7 @@ body.overview #hud { display: none; }
 <rect x="197.5" y="140.0" width="196.0" height="84.0" rx="10" fill="#D9E8F5" stroke="#2E75B6" stroke-width="1.5"/>
 <text text-anchor="middle" dominant-baseline="middle" font-size="16" fill="#0E3A66" font-weight="bold"><tspan x="295.5223080814385" y="164.0">5. Close</tspan></text>
 <text text-anchor="middle" dominant-baseline="middle" font-size="12.5" fill="#0E3A66"><tspan x="295.5223080814385" y="194.0">Assign owners and deadlines</tspan></text>
-</svg></div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>6 / 9</span></span></footer>
+</svg></div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>6 / 12</span></span></footer>
 </section>
 </div>
 <div class="frame" data-slide="7">
@@ -363,7 +382,7 @@ body.overview #hud { display: none; }
 <g class="h-branch"><line x1="423.0" y1="189" x2="423.0" y2="208" stroke="#2E75B6" stroke-width="1.5"/><rect x="290.0" y="208.0" width="266.0" height="50.0" rx="10" fill="#2E75B6"/><text text-anchor="middle" dominant-baseline="middle" font-size="16" fill="#FFFFFF" font-weight="bold"><tspan x="423" y="233.0">Co-host</tspan></text><line x1="423.0" y1="258.0" x2="423.0" y2="274.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="302.0" y="274.0" width="242.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="423" y="294.0">Watches the chat</tspan></text><line x1="423.0" y1="314.0" x2="423.0" y2="326.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="302.0" y="326.0" width="242.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="423" y="346.0">Handles tech issues</tspan></text></g>
 <g class="h-branch"><line x1="713.0" y1="189" x2="713.0" y2="208" stroke="#2E75B6" stroke-width="1.5"/><rect x="580.0" y="208.0" width="266.0" height="50.0" rx="10" fill="#2E75B6"/><text text-anchor="middle" dominant-baseline="middle" font-size="16" fill="#FFFFFF" font-weight="bold"><tspan x="713" y="233.0">Note taker</tspan></text><line x1="713.0" y1="258.0" x2="713.0" y2="274.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="592.0" y="274.0" width="242.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="713" y="294.0">Captures decisions</tspan></text><line x1="713.0" y1="314.0" x2="713.0" y2="326.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="592.0" y="326.0" width="242.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="713" y="346.0">Publishes summary</tspan></text></g>
 <g class="h-branch"><line x1="1003.0" y1="189" x2="1003.0" y2="208" stroke="#2E75B6" stroke-width="1.5"/><rect x="870.0" y="208.0" width="266.0" height="50.0" rx="10" fill="#2E75B6"/><text text-anchor="middle" dominant-baseline="middle" font-size="16" fill="#FFFFFF" font-weight="bold"><tspan x="1003" y="233.0">Participants</tspan></text><line x1="1003.0" y1="258.0" x2="1003.0" y2="274.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="882.0" y="274.0" width="242.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="1003" y="294.0">Contribute ideas</tspan></text><line x1="1003.0" y1="314.0" x2="1003.0" y2="326.0" stroke="#2E75B6" stroke-width="1.5"/><rect x="882.0" y="326.0" width="242.0" height="40.0" rx="6" fill="#D9E8F5"/><text text-anchor="middle" dominant-baseline="middle" font-size="13.5" fill="#0E3A66"><tspan x="1003" y="346.0">Own follow-ups</tspan></text></g>
-</svg></div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>7 / 9</span></span></footer>
+</svg></div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>7 / 12</span></span></footer>
 </section>
 </div>
 <div class="frame" data-slide="8">
@@ -392,11 +411,60 @@ body.overview #hud { display: none; }
 <g data-edge data-from="psych" data-to="engage"><text x="347.4" y="209.5" text-anchor="middle" dominant-baseline="middle" font-size="12.5" fill="#2E75B6" paint-order="stroke" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round">unlocks</text></g>
 <g data-edge data-from="breaks" data-to="psych"><text x="464.2" y="353.2" text-anchor="middle" dominant-baseline="middle" font-size="12.5" fill="#2E75B6" paint-order="stroke" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round">builds</text></g>
 <g data-edge data-from="prep" data-to="tools"><text x="797.7" y="79.0" text-anchor="middle" dominant-baseline="middle" font-size="12.5" fill="#2E75B6" paint-order="stroke" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round">selects</text></g>
-</svg></div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>8 / 9</span></span></footer>
+</svg></div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>8 / 12</span></span></footer>
 </section>
 </div>
 <div class="frame" data-slide="9">
 <section class="slide" aria-label="Slide 9">
+
+<header class="s-head"><div class="s-label">8 · Formats</div><h2 class="s-title">Live collaboration versus async preparation</h2><div class="s-accent"></div></header>
+<div class="s-body ofc" style="top: 174px; display: grid; grid-template-columns: 1fr 64px 1fr; align-items: stretch; align-content: start;">
+  
+  <div style="min-width: 0; display: flex; flex-direction: column;">
+    <div style="background: var(--navy); color: var(--white); border-radius: var(--radius) var(--radius) 0 0; padding: 14px 20px; text-align: center; font-weight: bold; font-size: 18px;">Live collaboration</div>
+    <div class="card" style="border-radius: 0 0 var(--radius) var(--radius); flex: 1;"><ul class="bullets"><li>Best for decisions and creative leaps</li><li>Builds shared ownership fast</li><li>Expensive: everyone at the same time</li><li>Energy management is critical</li></ul></div>
+  </div>
+  <div style="align-self: center; justify-self: center;">
+    <div style="width: 58px; height: 58px; border-radius: 50%; border: 2.5px solid var(--blue); background: var(--white); display: flex; align-items: center; justify-content: center; color: var(--blue); font-weight: bold; font-size: 15px;">VS</div>
+  </div>
+  
+  <div style="min-width: 0; display: flex; flex-direction: column;">
+    <div style="background: var(--navy); color: var(--white); border-radius: var(--radius) var(--radius) 0 0; padding: 14px 20px; text-align: center; font-weight: bold; font-size: 18px;">Async preparation</div>
+    <div class="card" style="border-radius: 0 0 var(--radius) var(--radius); flex: 1;"><ul class="bullets"><li>Best for research and individual input</li><li>Gives quiet thinkers equal weight</li><li>Cheap: everyone at their own pace</li><li>Needs crisp written instructions</li></ul></div>
+  </div>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>9 / 12</span></span></footer>
+</section>
+</div>
+<div class="frame" data-slide="10">
+<section class="slide" aria-label="Slide 10">
+
+<header class="s-head"><div class="s-label">9 · Reference</div><h2 class="s-title">Choosing a format for each goal</h2><div class="s-accent"></div></header>
+<div class="s-body ofc" style="top: 158px;">
+  <table class="p-table" style="font-size: 15px;">
+    <thead><tr><th style="text-align: left;">Goal</th><th style="text-align: left;">Best format</th><th style="text-align: center;">Group size</th><th style="text-align: center;">Typical length</th></tr></thead>
+    <tbody><tr><td style="text-align: left; font-weight: bold;">Generate many ideas</td><td style="text-align: left;">Silent brainstorm, then clustering</td><td style="text-align: center;">4–8</td><td style="text-align: center;">30 min</td></tr>
+<tr><td style="text-align: left; font-weight: bold;">Make a decision</td><td style="text-align: left;">Options review with dot voting</td><td style="text-align: center;">3–6</td><td style="text-align: center;">45 min</td></tr>
+<tr><td style="text-align: left; font-weight: bold;">Align on a plan</td><td style="text-align: left;">Milestone mapping on a timeline</td><td style="text-align: center;">4–10</td><td style="text-align: center;">60 min</td></tr>
+<tr><td style="text-align: left; font-weight: bold;">Gather feedback</td><td style="text-align: left;">Structured critique rounds</td><td style="text-align: center;">3–8</td><td style="text-align: center;">30 min</td></tr>
+<tr><td style="text-align: left; font-weight: bold;">Build team trust</td><td style="text-align: left;">Paired interviews and share-back</td><td style="text-align: center;">6–12</td><td style="text-align: center;">45 min</td></tr></tbody>
+  </table>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>10 / 12</span></span></footer>
+</section>
+</div>
+<div class="frame" data-slide="11">
+<section class="slide" aria-label="Slide 11">
+
+<header class="s-head"><div class="s-label">10 · Practice</div><h2 class="s-title">One canvas keeps everyone oriented</h2><div class="s-accent"></div></header>
+<div class="s-body ofc" style="top: 158px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px;">
+  <div style="background: var(--light-blue); border-radius: var(--radius); overflow: hidden; height: 100%; display: flex; flex-direction: column;">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iNDgwIiB2aWV3Qm94PSIwIDAgNjQwIDQ4MCI+CiAgPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0ODAiIGZpbGw9IiNGRkZGRkYiLz4KICA8cmVjdCB4PSIyMCIgeT0iMjAiIHdpZHRoPSI2MDAiIGhlaWdodD0iNjQiIHJ4PSIxMCIgZmlsbD0iIzBFM0E2NiIvPgogIDx0ZXh0IHg9IjMyMCIgeT0iNTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI0ZGRkZGRiI+U2Vzc2lvbiBDYW52YXM8L3RleHQ+CiAgPHJlY3QgeD0iMjAiIHk9IjEwNCIgd2lkdGg9IjI5MCIgaGVpZ2h0PSIxNzAiIHJ4PSIxMCIgZmlsbD0iI0Q5RThGNSIvPgogIDxyZWN0IHg9IjMwIiB5PSIxMDQiIHdpZHRoPSIyNzAiIGhlaWdodD0iNiIgcng9IjMiIGZpbGw9IiMyRTc1QjYiLz4KICA8dGV4dCB4PSIxNjUiIHk9IjE0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjMEUzQTY2Ij5Hb2FsPC90ZXh0PgogIDxsaW5lIHgxPSI0NSIgeTE9IjE3MCIgeDI9IjI4NSIgeTI9IjE3MCIgc3Ryb2tlPSIjMkU3NUI2IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iNDUiIHkxPSIyMDAiIHgyPSIyODUiIHkyPSIyMDAiIHN0cm9rZT0iIzJFNzVCNiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjQ1IiB5MT0iMjMwIiB4Mj0iMjE1IiB5Mj0iMjMwIiBzdHJva2U9IiMyRTc1QjYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxyZWN0IHg9IjMzMCIgeT0iMTA0IiB3aWR0aD0iMjkwIiBoZWlnaHQ9IjE3MCIgcng9IjEwIiBmaWxsPSIjRDlFOEY1Ii8+CiAgPHJlY3QgeD0iMzQwIiB5PSIxMDQiIHdpZHRoPSIyNzAiIGhlaWdodD0iNiIgcng9IjMiIGZpbGw9IiMyRTc1QjYiLz4KICA8dGV4dCB4PSI0NzUiIHk9IjE0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjMEUzQTY2Ij5BZ2VuZGE8L3RleHQ+CiAgPGNpcmNsZSBjeD0iMzYwIiBjeT0iMTc1IiByPSI2IiBmaWxsPSIjMkU3NUI2Ii8+CiAgPGxpbmUgeDE9IjM3OCIgeTE9IjE3NSIgeDI9IjYwMCIgeTI9IjE3NSIgc3Ryb2tlPSIjMkU3NUI2IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIzNjAiIGN5PSIyMDUiIHI9IjYiIGZpbGw9IiMyRTc1QjYiLz4KICA8bGluZSB4MT0iMzc4IiB5MT0iMjA1IiB4Mj0iNjAwIiB5Mj0iMjA1IiBzdHJva2U9IiMyRTc1QjYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxjaXJjbGUgY3g9IjM2MCIgY3k9IjIzNSIgcj0iNiIgZmlsbD0iIzJFNzVCNiIvPgogIDxsaW5lIHgxPSIzNzgiIHkxPSIyMzUiIHgyPSI1NDAiIHkyPSIyMzUiIHN0cm9rZT0iIzJFNzVCNiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHJlY3QgeD0iMjAiIHk9IjI5NCIgd2lkdGg9IjYwMCIgaGVpZ2h0PSIxNjYiIHJ4PSIxMCIgZmlsbD0iI0Q5RThGNSIvPgogIDxyZWN0IHg9IjMwIiB5PSIyOTQiIHdpZHRoPSI1ODAiIGhlaWdodD0iNiIgcng9IjMiIGZpbGw9IiMyRTc1QjYiLz4KICA8dGV4dCB4PSIzMjAiIHk9IjMzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjMEUzQTY2Ij5JZGVhIEJvYXJkPC90ZXh0PgogIDxyZWN0IHg9IjQ4IiB5PSIzNTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODQiIHJ4PSI2IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiMyRTc1QjYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxyZWN0IHg9IjE5MiIgeT0iMzUwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijg0IiByeD0iNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjMkU3NUI2IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cmVjdCB4PSIzMzYiIHk9IjM1MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSI4NCIgcng9IjYiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZT0iIzJFNzVCNiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHJlY3QgeD0iNDgwIiB5PSIzNTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODQiIHJ4PSI2IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiMyRTc1QjYiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4K" alt="Workshop canvas with goal, agenda and idea board sections" style="flex: 1; min-height: 0; width: 100%; object-fit: contain; object-position: center;">
+        <div style="padding: 10px 16px; font-size: 13px; color: var(--blue); text-align: center;">A single shared canvas: goal, agenda and idea board</div>
+      </div><div style="align-self: start;"><ul class="bullets"><li>Participants never ask &quot;where are we?&quot; — the canvas shows it</li><li>The goal stays visible while ideas accumulate below</li><li>Everything lives in one place after the session<ul class="sub"><li>No lost sticky notes</li><li>Summary is one export away</li></ul></li></ul></div>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>11 / 12</span></span></footer>
+</section>
+</div>
+<div class="frame" data-slide="12">
+<section class="slide" aria-label="Slide 12">
 
 <header class="s-head"><div class="s-label">5 · Summary</div><h2 class="s-title">Key takeaway</h2><div class="s-accent"></div></header>
 <div class="s-body ofc" style="top: 182px;">
@@ -411,14 +479,14 @@ body.overview #hud { display: none; }
       <div class="card card-accent hoverable" style="text-align: center; padding: 20px 22px; font-size: 15px; line-height: var(--leading); color: var(--navy);">Change the mode every fifteen minutes</div>
       <div class="card card-accent hoverable" style="text-align: center; padding: 20px 22px; font-size: 15px; line-height: var(--leading); color: var(--navy);">Close with owners and deadlines</div>
     </div>
-</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>9 / 9</span></span></footer>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>12 / 12</span></span></footer>
 </section>
 </div>
 </div>
 </div>
 <div id="hud">
 <button id="hud-prev" title="Previous (Left arrow)">&#8249;</button>
-<span id="hud-counter">1 / 9</span>
+<span id="hud-counter">1 / 12</span>
 <button id="hud-next" title="Next (Right arrow)">&#8250;</button>
 <button id="hud-grid" title="Overview (O)">&#9638;</button>
 </div>

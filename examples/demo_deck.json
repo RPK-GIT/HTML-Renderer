@@ -20,8 +20,8 @@
         { "text": "What a workshop actually is — and is not", "slide": 4 },
         { "text": "The three pillars of engagement", "slide": 5 },
         { "text": "A five-stage facilitation process", "slide": 6 },
-        { "text": "Tools, roles and how everything connects", "slide": 7 },
-        { "text": "Choosing formats and planning your next session", "slide": 9 }
+        { "text": "Roles and how the elements connect", "slide": 7 },
+        { "text": "Choosing formats and keeping everyone oriented", "slide": 9 }
       ],
       "source": "Demo content, fictional"
     },
@@ -136,6 +136,63 @@
         { "from": "psych", "to": "engage", "label": "unlocks" },
         { "from": "breaks", "to": "psych", "label": "builds" },
         { "from": "prep", "to": "tools", "label": "selects" }
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "type": "comparison",
+      "section": "8 · Formats",
+      "title": "Live collaboration versus async preparation",
+      "left": {
+        "heading": "Live collaboration",
+        "points": [
+          "Best for decisions and creative leaps",
+          "Builds shared ownership fast",
+          "Expensive: everyone at the same time",
+          "Energy management is critical"
+        ]
+      },
+      "right": {
+        "heading": "Async preparation",
+        "points": [
+          "Best for research and individual input",
+          "Gives quiet thinkers equal weight",
+          "Cheap: everyone at their own pace",
+          "Needs crisp written instructions"
+        ]
+      },
+      "source": "Demo content, fictional"
+    },
+    {
+      "type": "table",
+      "section": "9 · Reference",
+      "title": "Choosing a format for each goal",
+      "columns": ["Goal", "Best format", "Group size", "Typical length"],
+      "align": ["left", "left", "center", "center"],
+      "rows": [
+        ["Generate many ideas", "Silent brainstorm, then clustering", "4–8", "30 min"],
+        ["Make a decision", "Options review with dot voting", "3–6", "45 min"],
+        ["Align on a plan", "Milestone mapping on a timeline", "4–10", "60 min"],
+        ["Gather feedback", "Structured critique rounds", "3–8", "30 min"],
+        ["Build team trust", "Paired interviews and share-back", "6–12", "45 min"]
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "type": "image_text",
+      "section": "10 · Practice",
+      "title": "One canvas keeps everyone oriented",
+      "image": {
+        "path": "workshop_canvas.svg",
+        "fit": "contain",
+        "caption": "A single shared canvas: goal, agenda and idea board",
+        "alt": "Workshop canvas with goal, agenda and idea board sections"
+      },
+      "image_side": "left",
+      "bullets": [
+        "Participants never ask \"where are we?\" — the canvas shows it",
+        "The goal stays visible while ideas accumulate below",
+        { "text": "Everything lives in one place after the session", "sub": ["No lost sticky notes", "Summary is one export away"] }
       ],
       "source": "Demo content, fictional"
     },

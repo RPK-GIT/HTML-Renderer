@@ -133,6 +133,25 @@ body.overview .frame { pointer-events: auto; }
 svg text { font-family: var(--font); }
 .s-body > svg { display: block; margin: 0 auto; }
 
+/* ---- presentation tables ---- */
+.p-table { width: 100%; border-collapse: collapse; }
+.p-table th {
+  background: var(--navy); color: var(--white);
+  font-weight: bold;
+  padding: 11px 16px;
+}
+.p-table thead tr th:first-child { border-radius: var(--radius) 0 0 0; }
+.p-table thead tr th:last-child { border-radius: 0 var(--radius) 0 0; }
+.p-table td {
+  color: var(--navy);
+  padding: 9px 16px;
+  line-height: 1.35;
+  vertical-align: top;
+}
+.p-table tbody tr:nth-child(even) { background: var(--light-blue); }
+.p-table tbody tr:nth-child(odd) { background: var(--white); }
+.p-table tbody tr { border-bottom: 1px solid var(--light-blue); }
+
 /* ---- diagram hover highlighting (screen only) ---- */
 @media screen {
   svg [data-node], svg [data-edge], svg .h-branch { transition: opacity 180ms ease; }

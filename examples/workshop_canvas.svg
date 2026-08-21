@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <rect width="640" height="480" fill="#FFFFFF"/>
+  <rect x="20" y="20" width="600" height="64" rx="10" fill="#0E3A66"/>
+  <text x="320" y="58" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#FFFFFF">Session Canvas</text>
+  <rect x="20" y="104" width="290" height="170" rx="10" fill="#D9E8F5"/>
+  <rect x="30" y="104" width="270" height="6" rx="3" fill="#2E75B6"/>
+  <text x="165" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#0E3A66">Goal</text>
+  <line x1="45" y1="170" x2="285" y2="170" stroke="#2E75B6" stroke-width="2"/>
+  <line x1="45" y1="200" x2="285" y2="200" stroke="#2E75B6" stroke-width="2"/>
+  <line x1="45" y1="230" x2="215" y2="230" stroke="#2E75B6" stroke-width="2"/>
+  <rect x="330" y="104" width="290" height="170" rx="10" fill="#D9E8F5"/>
+  <rect x="340" y="104" width="270" height="6" rx="3" fill="#2E75B6"/>
+  <text x="475" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#0E3A66">Agenda</text>
+  <circle cx="360" cy="175" r="6" fill="#2E75B6"/>
+  <line x1="378" y1="175" x2="600" y2="175" stroke="#2E75B6" stroke-width="2"/>
+  <circle cx="360" cy="205" r="6" fill="#2E75B6"/>
+  <line x1="378" y1="205" x2="600" y2="205" stroke="#2E75B6" stroke-width="2"/>
+  <circle cx="360" cy="235" r="6" fill="#2E75B6"/>
+  <line x1="378" y1="235" x2="540" y2="235" stroke="#2E75B6" stroke-width="2"/>
+  <rect x="20" y="294" width="600" height="166" rx="10" fill="#D9E8F5"/>
+  <rect x="30" y="294" width="580" height="6" rx="3" fill="#2E75B6"/>
+  <text x="320" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#0E3A66">Idea Board</text>
+  <rect x="48" y="350" width="120" height="84" rx="6" fill="#FFFFFF" stroke="#2E75B6" stroke-width="2"/>
+  <rect x="192" y="350" width="120" height="84" rx="6" fill="#FFFFFF" stroke="#2E75B6" stroke-width="2"/>
+  <rect x="336" y="350" width="120" height="84" rx="6" fill="#FFFFFF" stroke="#2E75B6" stroke-width="2"/>
+  <rect x="480" y="350" width="120" height="84" rx="6" fill="#FFFFFF" stroke="#2E75B6" stroke-width="2"/>
+</svg>
