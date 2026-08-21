@@ -75,3 +75,13 @@ export function bodyTop(slide, theme) {
   if (slide.intro) top += theme.bodySize * theme.leading + 18;
   return Math.round(top);
 }
+
+/** Pixel box available to a diagram between header and footer. */
+export function diagramRegion(slide, theme) {
+  const top = bodyTop(slide, theme);
+  return {
+    top,
+    width: theme.slideWidth - 2 * theme.marginX,
+    height: theme.slideHeight - theme.marginBottom - 34 - top,
+  };
+}

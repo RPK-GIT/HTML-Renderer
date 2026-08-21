@@ -1,7 +1,7 @@
 # Validation report
 
 - Status: **ok**
-- Slides: 6
+- Slides: 9
 - Errors: 0
 - Warnings: 0
 

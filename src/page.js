@@ -131,6 +131,15 @@ body.overview .frame { pointer-events: auto; }
   font-size: ${t.bodySize}px; line-height: var(--leading);
 }
 svg text { font-family: var(--font); }
+.s-body > svg { display: block; margin: 0 auto; }
+
+/* ---- diagram hover highlighting (screen only) ---- */
+@media screen {
+  svg [data-node], svg [data-edge], svg .h-branch { transition: opacity 180ms ease; }
+  svg .dim { opacity: 0.22; }
+  svg.hier:hover .h-branch:not(:hover) { opacity: 0.35; }
+  svg [data-node] { cursor: default; }
+}
 
 /* ---- HUD: counter + controls (screen only, outside slide canvas) ---- */
 #hud {
@@ -298,6 +307,28 @@ function navScript() {
   if (prev) prev.addEventListener('click', function () { show(current - 1); });
   if (next) next.addEventListener('click', function () { show(current + 1); });
   if (grid) grid.addEventListener('click', function () { toggleOverview(); });
+
+  // Relationship diagrams: hovering a node highlights its connections.
+  document.querySelectorAll('svg.rel').forEach(function (svg) {
+    var nodes = svg.querySelectorAll('[data-node]');
+    var edges = svg.querySelectorAll('[data-edge]');
+    nodes.forEach(function (g) {
+      g.addEventListener('mouseenter', function () {
+        var id = g.getAttribute('data-node');
+        var keep = {};
+        keep[id] = true;
+        edges.forEach(function (e) {
+          var hit = e.getAttribute('data-from') === id || e.getAttribute('data-to') === id;
+          e.classList.toggle('dim', !hit);
+          if (hit) { keep[e.getAttribute('data-from')] = true; keep[e.getAttribute('data-to')] = true; }
+        });
+        nodes.forEach(function (n) { n.classList.toggle('dim', !keep[n.getAttribute('data-node')]); });
+      });
+      g.addEventListener('mouseleave', function () {
+        svg.querySelectorAll('.dim').forEach(function (el) { el.classList.remove('dim'); });
+      });
+    });
+  });
 
   // HUD appears on mouse activity and fades out when idle.
   var hudTimer = null;

@@ -17,6 +17,9 @@ import * as sectionSummary from './slides/section_summary.js';
 import { twoColumn, threeColumn } from './slides/columns.js';
 import * as definition from './slides/definition.js';
 import * as takeaway from './slides/takeaway.js';
+import * as process_ from './slides/process.js';
+import * as hierarchy from './slides/hierarchy.js';
+import * as relationship from './slides/relationship.js';
 
 /** Slide type registry. Each module exports { required, render }. */
 const REGISTRY = {
@@ -27,6 +30,9 @@ const REGISTRY = {
   three_column: threeColumn,
   definition,
   takeaway,
+  process: process_,
+  hierarchy,
+  relationship,
 };
 
 export function registeredTypes() {

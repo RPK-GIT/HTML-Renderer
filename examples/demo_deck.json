@@ -88,6 +88,58 @@
       "source": "Demo content, fictional"
     },
     {
+      "type": "process",
+      "variant": "cycle",
+      "section": "5 · Method",
+      "title": "The facilitation cycle",
+      "center": "Every session",
+      "steps": [
+        { "label": "Frame", "detail": "Agree the outcome and agenda" },
+        { "label": "Open", "detail": "Get every voice in early" },
+        { "label": "Diverge", "detail": "Generate options in parallel" },
+        { "label": "Converge", "detail": "Cluster, vote and decide" },
+        { "label": "Close", "detail": "Assign owners and deadlines" }
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "type": "hierarchy",
+      "section": "6 · Roles",
+      "title": "Who does what in a workshop",
+      "root": "Workshop Team",
+      "children": [
+        { "label": "Facilitator", "children": ["Guides the process", "Guards the time"] },
+        { "label": "Co-host", "children": ["Watches the chat", "Handles tech issues"] },
+        { "label": "Note taker", "children": ["Captures decisions", "Publishes summary"] },
+        { "label": "Participants", "children": ["Contribute ideas", "Own follow-ups"] }
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "type": "relationship",
+      "variant": "radial",
+      "section": "7 · Concept map",
+      "title": "How the elements connect",
+      "nodes": [
+        { "id": "engage", "label": "Engagement" },
+        { "id": "prep", "label": "Preparation" },
+        { "id": "tools", "label": "Shared Tools" },
+        { "id": "breaks", "label": "Breakout Groups" },
+        { "id": "time", "label": "Timeboxing" },
+        { "id": "psych", "label": "Psychological Safety" }
+      ],
+      "edges": [
+        { "from": "prep", "to": "engage", "label": "enables" },
+        { "from": "tools", "to": "engage", "label": "channels" },
+        { "from": "breaks", "to": "engage", "label": "multiplies" },
+        { "from": "time", "to": "engage", "label": "protects" },
+        { "from": "psych", "to": "engage", "label": "unlocks" },
+        { "from": "breaks", "to": "psych", "label": "builds" },
+        { "from": "prep", "to": "tools", "label": "selects" }
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
       "type": "takeaway",
       "section": "5 · Summary",
       "title": "Key takeaway",
