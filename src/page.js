@@ -79,6 +79,7 @@ body.overview .frame { pointer-events: auto; }
   position: absolute;
   left: ${t.marginX}px; right: ${t.marginX}px;
   bottom: ${t.marginBottom + 34}px;
+  overflow: hidden;
 }
 .s-foot {
   position: absolute;
@@ -119,6 +120,8 @@ body.overview .frame { pointer-events: auto; }
   box-shadow: var(--shadow);
 }
 .card h3 { color: var(--navy); font-size: ${t.headingSize}px; margin-bottom: 12px; }
+.card .body-text { margin-bottom: 14px; }
+.card .bullets li:last-child { margin-bottom: 0; }
 .card-accent { border-top: 5px solid var(--blue); }
 .callout {
   background: var(--navy);
@@ -137,8 +140,10 @@ svg text { font-family: var(--font); }
   font-size: 13px;
   user-select: none;
   z-index: 20;
-  opacity: 0.85;
+  opacity: 0;
+  transition: opacity 300ms ease;
 }
+body.hud-visible #hud { opacity: 0.9; }
 #hud button {
   background: transparent;
   border: 1px solid var(--light-blue);
@@ -293,6 +298,20 @@ function navScript() {
   if (prev) prev.addEventListener('click', function () { show(current - 1); });
   if (next) next.addEventListener('click', function () { show(current + 1); });
   if (grid) grid.addEventListener('click', function () { toggleOverview(); });
+
+  // HUD appears on mouse activity and fades out when idle.
+  var hudTimer = null;
+  function pokeHud() {
+    document.body.classList.add('hud-visible');
+    clearTimeout(hudTimer);
+    hudTimer = setTimeout(function () { document.body.classList.remove('hud-visible'); }, 2200);
+  }
+  document.addEventListener('mousemove', pokeHud);
+  var hud = document.getElementById('hud');
+  if (hud) {
+    hud.addEventListener('mouseenter', function () { clearTimeout(hudTimer); document.body.classList.add('hud-visible'); });
+    hud.addEventListener('mouseleave', pokeHud);
+  }
 
   window.addEventListener('resize', fit);
   window.addEventListener('hashchange', function () {

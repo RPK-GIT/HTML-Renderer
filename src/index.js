@@ -12,10 +12,21 @@ import { Validator, checkColors } from './validation.js';
 import { slideFooter } from './components.js';
 
 import * as title from './slides/title.js';
+import * as content from './slides/content.js';
+import * as sectionSummary from './slides/section_summary.js';
+import { twoColumn, threeColumn } from './slides/columns.js';
+import * as definition from './slides/definition.js';
+import * as takeaway from './slides/takeaway.js';
 
 /** Slide type registry. Each module exports { required, render }. */
 const REGISTRY = {
   title,
+  content,
+  section_summary: sectionSummary,
+  two_column: twoColumn,
+  three_column: threeColumn,
+  definition,
+  takeaway,
 };
 
 export function registeredTypes() {

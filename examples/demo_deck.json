@@ -10,6 +10,94 @@
       "subtitle": "Techniques for planning, energizing and closing productive online sessions",
       "author": "Demo Deck",
       "date": "2026"
+    },
+    {
+      "type": "section_summary",
+      "section": "1 · Roadmap",
+      "title": "What this session covers",
+      "summary": [
+        { "text": "Why remote workshops fail without deliberate design", "slide": 3 },
+        { "text": "What a workshop actually is — and is not", "slide": 4 },
+        { "text": "The three pillars of engagement", "slide": 5 },
+        { "text": "A five-stage facilitation process", "slide": 6 },
+        { "text": "Tools, roles and how everything connects", "slide": 7 },
+        { "text": "Choosing formats and planning your next session", "slide": 9 }
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "type": "two_column",
+      "section": "2 · Motivation",
+      "title": "In-person habits do not transfer",
+      "intro": "The same agenda that works in a meeting room often collapses online.",
+      "columns": [
+        {
+          "heading": "In the room",
+          "bullets": [
+            "Energy is visible and self-correcting",
+            "Side conversations surface ideas",
+            "Whiteboards invite spontaneous input",
+            "Breaks happen naturally"
+          ]
+        },
+        {
+          "heading": "On a call",
+          "bullets": [
+            "Silence hides disengagement",
+            "One voice dominates the channel",
+            "Screens encourage passive watching",
+            "Fatigue builds without movement"
+          ]
+        }
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "type": "definition",
+      "section": "3 · Core concept",
+      "title": "What is a workshop?",
+      "term": "Workshop",
+      "definition": "A structured working session in which a group actively produces a concrete outcome together, rather than receiving information passively.",
+      "notes": [
+        "The outcome — a decision, a plan, a prototype — is agreed before the session starts",
+        "If participants could be replaced by an email, it is a meeting, not a workshop"
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "type": "three_column",
+      "section": "4 · Principles",
+      "title": "Three pillars of remote engagement",
+      "columns": [
+        {
+          "heading": "Participation",
+          "body": "Every attendee contributes something visible in the first ten minutes.",
+          "bullets": ["Round-robin openers", "Shared canvases", "Small breakout groups"]
+        },
+        {
+          "heading": "Rhythm",
+          "body": "Alternate intensity: never more than fifteen minutes in one mode.",
+          "bullets": ["Timeboxed exercises", "Movement breaks", "Energy checks"]
+        },
+        {
+          "heading": "Clarity",
+          "body": "At any moment everyone knows what is being asked of them.",
+          "bullets": ["One instruction at a time", "Visible timers", "Written prompts"]
+        }
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "type": "takeaway",
+      "section": "5 · Summary",
+      "title": "Key takeaway",
+      "statement": "A remote workshop succeeds by design, not by chance — structure participation, protect the rhythm, and make every instruction impossible to misunderstand.",
+      "points": [
+        "Design for contribution, not attendance",
+        "Change the mode every fifteen minutes",
+        "Close with owners and deadlines"
+      ],
+      "source": "Demo content, fictional"
     }
   ]
 }

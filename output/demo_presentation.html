@@ -62,6 +62,7 @@ body.overview .frame { pointer-events: auto; }
   position: absolute;
   left: 72px; right: 72px;
   bottom: 80px;
+  overflow: hidden;
 }
 .s-foot {
   position: absolute;
@@ -102,6 +103,8 @@ body.overview .frame { pointer-events: auto; }
   box-shadow: var(--shadow);
 }
 .card h3 { color: var(--navy); font-size: 18px; margin-bottom: 12px; }
+.card .body-text { margin-bottom: 14px; }
+.card .bullets li:last-child { margin-bottom: 0; }
 .card-accent { border-top: 5px solid var(--blue); }
 .callout {
   background: var(--navy);
@@ -120,8 +123,10 @@ svg text { font-family: var(--font); }
   font-size: 13px;
   user-select: none;
   z-index: 20;
-  opacity: 0.85;
+  opacity: 0;
+  transition: opacity 300ms ease;
 }
+body.hud-visible #hud { opacity: 0.9; }
 #hud button {
   background: transparent;
   border: 1px solid var(--light-blue);
@@ -206,11 +211,130 @@ body.overview #hud { display: none; }
 </div>
 </section>
 </div>
+<div class="frame" data-slide="2">
+<section class="slide" aria-label="Slide 2">
+
+<header class="s-head"><div class="s-label">1 · Roadmap</div><h2 class="s-title">What this session covers</h2><div class="s-accent"></div></header>
+<div class="s-body ofc" style="top: 158px; display: flex; flex-direction: column; gap: 16px;">
+  
+  <div class="card hoverable" data-goto="3" style="display: flex; align-items: center; gap: 20px; padding: 18px 24px; cursor: pointer;">
+    <span style="color: var(--blue); font-size: 20px; font-weight: bold; min-width: 34px;">01</span>
+    <span style="width: 2.5px; align-self: stretch; background: var(--blue); flex: none;"></span>
+    <span>
+      <span class="body-text">Why remote workshops fail without deliberate design</span>
+      
+    </span>
+  </div>
+
+  <div class="card hoverable" data-goto="4" style="display: flex; align-items: center; gap: 20px; padding: 18px 24px; cursor: pointer;">
+    <span style="color: var(--blue); font-size: 20px; font-weight: bold; min-width: 34px;">02</span>
+    <span style="width: 2.5px; align-self: stretch; background: var(--blue); flex: none;"></span>
+    <span>
+      <span class="body-text">What a workshop actually is — and is not</span>
+      
+    </span>
+  </div>
+
+  <div class="card hoverable" data-goto="5" style="display: flex; align-items: center; gap: 20px; padding: 18px 24px; cursor: pointer;">
+    <span style="color: var(--blue); font-size: 20px; font-weight: bold; min-width: 34px;">03</span>
+    <span style="width: 2.5px; align-self: stretch; background: var(--blue); flex: none;"></span>
+    <span>
+      <span class="body-text">The three pillars of engagement</span>
+      
+    </span>
+  </div>
+
+  <div class="card hoverable" data-goto="6" style="display: flex; align-items: center; gap: 20px; padding: 18px 24px; cursor: pointer;">
+    <span style="color: var(--blue); font-size: 20px; font-weight: bold; min-width: 34px;">04</span>
+    <span style="width: 2.5px; align-self: stretch; background: var(--blue); flex: none;"></span>
+    <span>
+      <span class="body-text">A five-stage facilitation process</span>
+      
+    </span>
+  </div>
+
+  <div class="card hoverable" data-goto="7" style="display: flex; align-items: center; gap: 20px; padding: 18px 24px; cursor: pointer;">
+    <span style="color: var(--blue); font-size: 20px; font-weight: bold; min-width: 34px;">05</span>
+    <span style="width: 2.5px; align-self: stretch; background: var(--blue); flex: none;"></span>
+    <span>
+      <span class="body-text">Tools, roles and how everything connects</span>
+      
+    </span>
+  </div>
+
+  <div class="card hoverable" data-goto="9" style="display: flex; align-items: center; gap: 20px; padding: 18px 24px; cursor: pointer;">
+    <span style="color: var(--blue); font-size: 20px; font-weight: bold; min-width: 34px;">06</span>
+    <span style="width: 2.5px; align-self: stretch; background: var(--blue); flex: none;"></span>
+    <span>
+      <span class="body-text">Choosing formats and planning your next session</span>
+      
+    </span>
+  </div>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>2 / 6</span></span></footer>
+</section>
+</div>
+<div class="frame" data-slide="3">
+<section class="slide" aria-label="Slide 3">
+
+<header class="s-head"><div class="s-label">2 · Motivation</div><h2 class="s-title">In-person habits do not transfer</h2><div class="s-accent"></div><p class="s-intro">The same agenda that works in a meeting room often collapses online.</p></header>
+<div class="s-body ofc" style="top: 199px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; align-content: start;">
+  <div class="card card-accent hoverable" style="min-width: 0;"><h3>In the room</h3><ul class="bullets"><li>Energy is visible and self-correcting</li><li>Side conversations surface ideas</li><li>Whiteboards invite spontaneous input</li><li>Breaks happen naturally</li></ul></div>
+  <div class="card card-accent hoverable" style="min-width: 0;"><h3>On a call</h3><ul class="bullets"><li>Silence hides disengagement</li><li>One voice dominates the channel</li><li>Screens encourage passive watching</li><li>Fatigue builds without movement</li></ul></div>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>3 / 6</span></span></footer>
+</section>
+</div>
+<div class="frame" data-slide="4">
+<section class="slide" aria-label="Slide 4">
+
+<header class="s-head"><div class="s-label">3 · Core concept</div><h2 class="s-title">What is a workshop?</h2><div class="s-accent"></div></header>
+<div class="s-body ofc" style="top: 178px;">
+  <div style="display: flex; max-width: 1010px; margin: 0 auto;">
+    <div style="width: 7px; background: var(--blue); border-radius: 3px 0 0 3px; flex: none;"></div>
+    <div class="card" style="border-radius: 0 var(--radius) var(--radius) 0; padding: 30px 38px; flex: 1;">
+      <div style="color: var(--blue); font-size: 13px; font-weight: bold; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;">Definition</div>
+      <div style="color: var(--navy); font-size: 24px; font-weight: bold; margin-bottom: 16px;">Workshop</div>
+      <div style="color: var(--navy); font-size: 19px; line-height: var(--leading); font-style: italic;">&ldquo;A structured working session in which a group actively produces a concrete outcome together, rather than receiving information passively.&rdquo;</div>
+    </div>
+  </div>
+  <div style="margin-top: 40px; padding: 0 32px;"><ul class="bullets"><li>The outcome — a decision, a plan, a prototype — is agreed before the session starts</li><li>If participants could be replaced by an email, it is a meeting, not a workshop</li></ul></div>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>4 / 6</span></span></footer>
+</section>
+</div>
+<div class="frame" data-slide="5">
+<section class="slide" aria-label="Slide 5">
+
+<header class="s-head"><div class="s-label">4 · Principles</div><h2 class="s-title">Three pillars of remote engagement</h2><div class="s-accent"></div></header>
+<div class="s-body ofc" style="top: 158px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-content: start;">
+  <div class="card card-accent hoverable" style="min-width: 0;"><h3>Participation</h3><p class="body-text" style="font-size: 15px;">Every attendee contributes something visible in the first ten minutes.</p><ul class="bullets small"><li>Round-robin openers</li><li>Shared canvases</li><li>Small breakout groups</li></ul></div>
+  <div class="card card-accent hoverable" style="min-width: 0;"><h3>Rhythm</h3><p class="body-text" style="font-size: 15px;">Alternate intensity: never more than fifteen minutes in one mode.</p><ul class="bullets small"><li>Timeboxed exercises</li><li>Movement breaks</li><li>Energy checks</li></ul></div>
+  <div class="card card-accent hoverable" style="min-width: 0;"><h3>Clarity</h3><p class="body-text" style="font-size: 15px;">At any moment everyone knows what is being asked of them.</p><ul class="bullets small"><li>One instruction at a time</li><li>Visible timers</li><li>Written prompts</li></ul></div>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>5 / 6</span></span></footer>
+</section>
+</div>
+<div class="frame" data-slide="6">
+<section class="slide" aria-label="Slide 6">
+
+<header class="s-head"><div class="s-label">5 · Summary</div><h2 class="s-title">Key takeaway</h2><div class="s-accent"></div></header>
+<div class="s-body ofc" style="top: 182px;">
+  <div style="position: relative;">
+    <div style="position: absolute; top: -3px; left: 50%; transform: translateX(-50%); width: 76px; height: 6px; background: var(--blue); border-radius: 3px;"></div>
+    <div style="background: var(--navy); border-radius: var(--radius); padding: 46px 60px; box-shadow: var(--shadow);">
+      <p style="color: var(--white); font-size: 26px; font-weight: bold; line-height: 1.45; text-align: center;">A remote workshop succeeds by design, not by chance — structure participation, protect the rhythm, and make every instruction impossible to misunderstand.</p>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 36px;">
+      <div class="card card-accent hoverable" style="text-align: center; padding: 20px 22px; font-size: 15px; line-height: var(--leading); color: var(--navy);">Design for contribution, not attendance</div>
+      <div class="card card-accent hoverable" style="text-align: center; padding: 20px 22px; font-size: 15px; line-height: var(--leading); color: var(--navy);">Change the mode every fifteen minutes</div>
+      <div class="card card-accent hoverable" style="text-align: center; padding: 20px 22px; font-size: 15px; line-height: var(--leading); color: var(--navy);">Close with owners and deadlines</div>
+    </div>
+</div><footer class="s-foot"><span>Running Effective Remote Workshops</span><span class="src"><span class="src">Source: Demo content, fictional</span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<span>6 / 6</span></span></footer>
+</section>
+</div>
 </div>
 </div>
 <div id="hud">
 <button id="hud-prev" title="Previous (Left arrow)">&#8249;</button>
-<span id="hud-counter">1 / 1</span>
+<span id="hud-counter">1 / 6</span>
 <button id="hud-next" title="Next (Right arrow)">&#8250;</button>
 <button id="hud-grid" title="Overview (O)">&#9638;</button>
 </div>
@@ -298,6 +422,20 @@ body.overview #hud { display: none; }
   if (prev) prev.addEventListener('click', function () { show(current - 1); });
   if (next) next.addEventListener('click', function () { show(current + 1); });
   if (grid) grid.addEventListener('click', function () { toggleOverview(); });
+
+  // HUD appears on mouse activity and fades out when idle.
+  var hudTimer = null;
+  function pokeHud() {
+    document.body.classList.add('hud-visible');
+    clearTimeout(hudTimer);
+    hudTimer = setTimeout(function () { document.body.classList.remove('hud-visible'); }, 2200);
+  }
+  document.addEventListener('mousemove', pokeHud);
+  var hud = document.getElementById('hud');
+  if (hud) {
+    hud.addEventListener('mouseenter', function () { clearTimeout(hudTimer); document.body.classList.add('hud-visible'); });
+    hud.addEventListener('mouseleave', pokeHud);
+  }
 
   window.addEventListener('resize', fit);
   window.addEventListener('hashchange', function () {

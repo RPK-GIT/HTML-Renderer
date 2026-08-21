@@ -64,3 +64,14 @@ export function card({ heading, bodyHtml, accent = true, hoverable = false, extr
 export function callout(text) {
   return `<div class="callout">${esc(text)}</div>`;
 }
+
+/**
+ * Vertical position (px) where the body region starts, given which header
+ * elements the slide uses. Keeps all slide types aligned consistently.
+ */
+export function bodyTop(slide, theme) {
+  let top = theme.marginTop + 24 + theme.titleSize * 1.15 + 14 + 5 + 26; // label+title+accent+gap
+  if (slide.subtitle) top += theme.subtitleSize * 1.3 + 14;
+  if (slide.intro) top += theme.bodySize * theme.leading + 18;
+  return Math.round(top);
+}
