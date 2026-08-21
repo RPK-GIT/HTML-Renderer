@@ -21,6 +21,7 @@ export function render(slide, ctx) {
     height: region.height,
     theme: ctx.theme,
     uid: `arrow-s${ctx.slideNo}`,
+    sequentialReveal: ctx.visual?.mode === 'sequential_reveal',
   });
   for (const p of problems) ctx.validator.error(ctx.slideNo, 'diagram_overflow', p);
 

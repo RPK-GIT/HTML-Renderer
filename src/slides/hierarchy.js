@@ -18,12 +18,25 @@ export function render(slide, ctx) {
     if (gcs.length > 4) throw new Error(`at most 4 sub-items per child (got ${gcs.length})`);
   }
 
+  // Build nav targets: resolve ids to 1-based indices
+  const rawNav = ctx.visual?.navigation ?? {};
+  const navTargets = {};
+  for (const [label, target] of Object.entries(rawNav)) {
+    if (typeof target === 'number') {
+      navTargets[label] = target;
+    } else if (typeof target === 'string' && ctx.idToIndex?.has(target)) {
+      navTargets[label] = ctx.idToIndex.get(target);
+    }
+    // unknown targets: silently skip (validated elsewhere)
+  }
+
   const region = diagramRegion(slide, ctx.theme);
   const { svg, problems } = hierarchySvg(slide, {
     width: region.width,
     height: region.height,
     theme: ctx.theme,
     uid: `arrow-s${ctx.slideNo}`,
+    navTargets,
   });
   for (const p of problems) ctx.validator.error(ctx.slideNo, 'diagram_overflow', p);
 

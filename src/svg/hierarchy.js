@@ -9,7 +9,7 @@
 
 import { fittedText, nodeRect, svgOpen, estWidth } from './core.js';
 
-export function hierarchySvg(slide, { width: W, height: H, theme: t, uid }) {
+export function hierarchySvg(slide, { width: W, height: H, theme: t, uid, navTargets = {} }) {
   const problems = [];
   const report = (msg) => problems.push(msg);
 
@@ -59,12 +59,20 @@ export function hierarchySvg(slide, { width: W, height: H, theme: t, uid }) {
     const cx = x + colW / 2;
     const branch = [];
     branch.push(`<line x1="${cx.toFixed(1)}" y1="${busY}" x2="${cx.toFixed(1)}" y2="${childY}" stroke="${t.blue}" stroke-width="${t.strokeWidth}"/>`);
-    branch.push(nodeRect({ x, y: childY, w: colW, h: childH, fill: t.blue, rx: t.cornerRadius }));
-    const label = fittedText(String(child.label ?? ''), {
+
+    const childLabel = String(child.label ?? '');
+    const childGoto = navTargets[childLabel];
+    const childRectSvg = nodeRect({ x, y: childY, w: colW, h: childH, fill: t.blue, rx: t.cornerRadius });
+    const label = fittedText(childLabel, {
       cx, cy: childY + childH / 2, width: colW - 26, size: 16, minSize: 12, bold: true, color: t.white, maxLines: 2,
     });
-    branch.push(label.svg);
     if (!label.fits) report(`child ${i + 1} label does not fit`);
+    if (childGoto !== undefined) {
+      branch.push(`<g data-goto="${childGoto}" style="cursor:pointer;">${childRectSvg}${label.svg}</g>`);
+    } else {
+      branch.push(childRectSvg);
+      branch.push(label.svg);
+    }
 
     const gcs = (child.children ?? []).map(String);
     gcs.forEach((gc, j) => {
@@ -73,12 +81,18 @@ export function hierarchySvg(slide, { width: W, height: H, theme: t, uid }) {
       const gw = colW - 24;
       const lineTop = j === 0 ? childY + childH : gy - gcGap;
       branch.push(`<line x1="${cx.toFixed(1)}" y1="${lineTop.toFixed(1)}" x2="${cx.toFixed(1)}" y2="${gy.toFixed(1)}" stroke="${t.blue}" stroke-width="${t.strokeWidth}"/>`);
-      branch.push(nodeRect({ x: gx, y: gy, w: gw, h: gcH, fill: t.lightBlue, rx: 6 }));
+      const gcRectSvg = nodeRect({ x: gx, y: gy, w: gw, h: gcH, fill: t.lightBlue, rx: 6 });
       const gcText = fittedText(gc, {
         cx, cy: gy + gcH / 2, width: gw - 20, size: 13.5, minSize: 11, color: t.navy, maxLines: 2,
       });
-      branch.push(gcText.svg);
       if (!gcText.fits) report(`item "${gc}" under child ${i + 1} does not fit`);
+      const gcGoto = navTargets[gc];
+      if (gcGoto !== undefined) {
+        branch.push(`<g data-goto="${gcGoto}" style="cursor:pointer;">${gcRectSvg}${gcText.svg}</g>`);
+      } else {
+        branch.push(gcRectSvg);
+        branch.push(gcText.svg);
+      }
     });
 
     parts.push(`<g class="h-branch">${branch.join('')}</g>`);

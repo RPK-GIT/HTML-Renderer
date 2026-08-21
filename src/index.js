@@ -10,6 +10,7 @@ import { loadTheme } from './theme.js';
 import { buildPage, escapeHtml } from './page.js';
 import { Validator, checkColors } from './validation.js';
 import { slideFooter } from './components.js';
+import { loadVisualSpec, validateNavigation } from './html_visual.js';
 
 import * as title from './slides/title.js';
 import * as content from './slides/content.js';
@@ -78,6 +79,26 @@ export function renderDeck(spec, opts = {}) {
   const slides = Array.isArray(spec.slides) ? spec.slides : [];
   if (!slides.length) validator.error(null, 'empty_deck', 'Deck contains no slides');
 
+  // Build slide id → 1-based index map; validate uniqueness
+  const idToIndex = new Map();
+  for (let i = 0; i < slides.length; i++) {
+    const slide = slides[i];
+    if (slide && typeof slide === 'object' && slide.id !== undefined && slide.id !== null) {
+      const id = String(slide.id);
+      if (idToIndex.has(id)) {
+        validator.error(null, 'duplicate_slide_id', `Duplicate slide id "${id}" (slides ${idToIndex.get(id)} and ${i + 1})`);
+      } else {
+        idToIndex.set(id, i + 1);
+      }
+    }
+  }
+
+  // Parse _html_visual spec
+  const resolveVisual = loadVisualSpec(spec, idToIndex, validator);
+
+  // Validate navigation targets
+  validateNavigation(spec, idToIndex, slides.length, validator);
+
   const rendered = slides.map((slide, i) => {
     const slideNo = i + 1;
     const ctx = {
@@ -88,6 +109,8 @@ export function renderDeck(spec, opts = {}) {
       baseDir: opts.baseDir ?? '.',
       validator,
       slideNo,
+      idToIndex,
+      visual: resolveVisual(slide?.type, slideNo, slide?.id),
     };
 
     if (!slide || typeof slide !== 'object') {

@@ -3,6 +3,19 @@
 Project: **Generic HTML/SVG presentation renderer** (JSON spec → 16:9 HTML deck, optional PDF export).
 Design reference: https://github.com/RPK-GIT/Deterministic-Renderer (visual identity only — no code dependency).
 
+## HTML Rich Visual Interaction Layer (2026-08-21)
+
+Added `_html_visual` optional deck-level block for HTML-specific presentation enhancements:
+
+- **Slide IDs**: optional `id` field on slides; unique when present; used for navigation targets and by_slide references
+- **`_html_visual` parsing**: `defaults` / `by_type` / `by_slide` with `by_slide > by_type > defaults` precedence
+- **`interactive_hierarchy`**: click-to-focus on hierarchy branches (dims siblings to 0.25); existing CSS hover preserved
+- **Click navigation**: `navigation` map in visual spec adds `data-goto` to matching hierarchy nodes
+- **`sequential_reveal`**: process slides reveal steps one at a time on → / click; visited steps shown at 0.65 opacity; active step at full; all steps visible at all times (no hidden content)
+- **Validation**: warnings (never errors) for unknown modes, unknown slide ids, out-of-range navigation targets, duplicate slide ids (error)
+- **39 + 19 tests pass** (all existing + new visual.test.js tests)
+- **Demo**: `examples/rich_demo.json` (5 slides, fictional content)
+
 ## Current phase
 
 **All 5 phases complete.** The renderer is feature-complete, tested (39/39 passing) and

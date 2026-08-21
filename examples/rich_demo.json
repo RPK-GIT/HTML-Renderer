@@ -1,0 +1,94 @@
+{
+  "deck": { "title": "Rich Interaction Demo" },
+  "slides": [
+    {
+      "id": "intro",
+      "type": "title",
+      "label": "HTML Renderer — Rich Visual Demo",
+      "title": "Interactive Presentations",
+      "subtitle": "Hierarchy navigation · Sequential process reveal",
+      "date": "2026"
+    },
+    {
+      "id": "roadmap",
+      "type": "hierarchy",
+      "section": "Overview",
+      "title": "Learning Roadmap",
+      "root": "Data Skills Programme",
+      "children": [
+        { "label": "Module 1 — Foundations", "children": ["Core concepts", "Terminology"] },
+        { "label": "Module 2 — Methods", "children": ["Analysis", "Modelling", "Quality"] },
+        { "label": "Module 3 — Advanced", "children": ["Governance", "Architecture"] },
+        "Assessment"
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "id": "foundations",
+      "type": "content",
+      "section": "Module 1 — Foundations",
+      "title": "Core Concepts",
+      "bullets": [
+        "Data represents facts that can be stored, retrieved and used",
+        "Information is data given context and meaning",
+        "Knowledge emerges from structured information over time",
+        "Data quality determines the value of everything built on top"
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "id": "methods",
+      "type": "two_column",
+      "section": "Module 2 — Methods",
+      "title": "Analysis and Modelling",
+      "columns": [
+        {
+          "heading": "Data Analysis",
+          "bullets": ["Profile before you transform", "Measure quality against defined rules", "Document anomalies and their causes"]
+        },
+        {
+          "heading": "Data Modelling",
+          "bullets": ["Conceptual before logical before physical", "Names and definitions matter as much as structure", "A model is a communication tool, not just a schema"]
+        }
+      ],
+      "source": "Demo content, fictional"
+    },
+    {
+      "id": "improvement-cycle",
+      "type": "process",
+      "section": "Module 2 — Methods",
+      "title": "The Improvement Cycle",
+      "intro": "Click → or press the right arrow to step through each phase.",
+      "steps": [
+        { "label": "Assess", "detail": "Profile current data; establish a quality baseline" },
+        { "label": "Define", "detail": "Agree measurable quality rules with stakeholders" },
+        { "label": "Remediate", "detail": "Fix root causes; correct existing records" },
+        { "label": "Monitor", "detail": "Track scores continuously; alert on regressions" },
+        { "label": "Improve", "detail": "Raise the quality bar; feed learnings back to step 1" }
+      ],
+      "source": "Demo content, fictional"
+    }
+  ],
+  "_html_visual": {
+    "defaults": {
+      "card_hover": true
+    },
+    "by_type": {
+      "hierarchy": {
+        "mode": "interactive_hierarchy"
+      }
+    },
+    "by_slide": {
+      "roadmap": {
+        "mode": "interactive_hierarchy",
+        "navigation": {
+          "Module 1 — Foundations": "foundations",
+          "Module 2 — Methods": "methods"
+        }
+      },
+      "improvement-cycle": {
+        "mode": "sequential_reveal"
+      }
+    }
+  }
+}

@@ -158,6 +158,15 @@ svg text { font-family: var(--font); }
   svg .dim { opacity: 0.22; }
   svg.hier:hover .h-branch:not(:hover) { opacity: 0.35; }
   svg [data-node] { cursor: default; }
+  svg.hier .h-branch { cursor: pointer; }
+}
+
+/* Sequential reveal: all steps start slightly subdued until one is focused */
+@media screen {
+  svg.proc-seq [data-step] { transition: opacity 200ms ease; }
+  svg.proc-seq.has-focus [data-step] { opacity: 0.35; }
+  svg.proc-seq.has-focus [data-step].step-active { opacity: 1; }
+  svg.proc-seq.has-focus [data-step].step-visited { opacity: 0.65; }
 }
 
 /* ---- HUD: counter + controls (screen only, outside slide canvas) ---- */
@@ -250,8 +259,59 @@ function navScript() {
 
   function clamp(n) { return Math.max(0, Math.min(frames.length - 1, n)); }
 
+  // Step controllers: per slide-index, manages sequential-reveal process diagrams
+  var stepControllers = {};
+
+  function initStepController(frameIndex) {
+    var svg = frames[frameIndex].querySelector('svg.proc-seq');
+    if (!svg) return null;
+    var steps = Array.prototype.slice.call(svg.querySelectorAll('[data-step]'));
+    if (!steps.length) return null;
+    var pos = 0; // 0 = none revealed yet
+    function applyState() {
+      steps.forEach(function (s, i) {
+        s.classList.remove('step-active', 'step-visited');
+        if (pos === 0) {
+          // not started: all at normal opacity
+          svg.classList.remove('has-focus');
+        } else {
+          svg.classList.add('has-focus');
+          if (i < pos - 1) s.classList.add('step-visited');
+          else if (i === pos - 1) s.classList.add('step-active');
+        }
+      });
+    }
+    return {
+      advance: function () {
+        if (pos >= steps.length) return false;
+        pos++;
+        applyState();
+        return true;
+      },
+      reset: function () { pos = 0; applyState(); },
+      done: function () { return pos >= steps.length; }
+    };
+  }
+
+  // Initialise after frames are known
+  frames.forEach(function (_, i) { stepControllers[i] = initStepController(i) || null; });
+
   function show(n, pushHash) {
-    current = clamp(n);
+    n = clamp(n);
+    // Forward advance: let step controller consume it first
+    if (n > current) {
+      var ctrl = stepControllers[current];
+      if (ctrl && !ctrl.done()) {
+        ctrl.advance();
+        return;
+      }
+    }
+    // Going backward: reset step controller on destination
+    if (n < current) {
+      var ctrl2 = stepControllers[n];
+      if (ctrl2) ctrl2.reset();
+    }
+    current = n;
     frames.forEach(function (f, i) { f.classList.toggle('active', i === current); });
     if (counter) counter.textContent = (current + 1) + ' / ' + frames.length;
     if (pushHash !== false) {
@@ -346,6 +406,36 @@ function navScript() {
       g.addEventListener('mouseleave', function () {
         svg.querySelectorAll('.dim').forEach(function (el) { el.classList.remove('dim'); });
       });
+    });
+  });
+
+  // Hierarchy click-to-focus
+  document.querySelectorAll('svg.hier').forEach(function (svg) {
+    var focused = null;
+    svg.querySelectorAll('.h-branch').forEach(function (br) {
+      br.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (focused === br) {
+          focused = null;
+          svg.querySelectorAll('.h-branch').forEach(function (b) {
+            b.style.opacity = '';
+          });
+        } else {
+          focused = br;
+          svg.querySelectorAll('.h-branch').forEach(function (b) {
+            b.style.opacity = b === focused ? '1' : '0.25';
+          });
+        }
+      });
+    });
+    // Click on svg background clears focus
+    svg.addEventListener('click', function (e) {
+      if (e.target === svg || e.target.tagName === 'svg') {
+        focused = null;
+        svg.querySelectorAll('.h-branch').forEach(function (b) {
+          b.style.opacity = '';
+        });
+      }
     });
   });
 

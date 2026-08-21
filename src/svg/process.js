@@ -163,7 +163,7 @@ function cycle(steps, W, H, t, uid, report, centerLabel) {
 /**
  * Build the process SVG. Returns { svg, problems: string[] }.
  */
-export function processSvg(slide, { width: W, height: H, theme: t, uid }) {
+export function processSvg(slide, { width: W, height: H, theme: t, uid, sequentialReveal = false }) {
   const steps = slide.steps;
   const problems = [];
   const report = (msg) => problems.push(msg);
@@ -172,16 +172,156 @@ export function processSvg(slide, { width: W, height: H, theme: t, uid }) {
   if (variant === 'auto') variant = steps.length <= 5 ? 'horizontal' : 'snake';
   if (variant === 'horizontal' && steps.length > 5) variant = 'snake';
 
+  // For sequential reveal, wrap each step card in a data-step group
   let body;
-  if (variant === 'cycle') body = cycle(steps, W, H, t, uid, report, slide.center);
-  else if (variant === 'snake') body = snake(steps, W, H, t, uid, report);
-  else body = horizontal(steps, W, H, t, uid, report);
+  if (sequentialReveal) {
+    // Generate body as individual step groups
+    let rawBody;
+    if (variant === 'cycle') rawBody = cycle(steps, W, H, t, uid, report, slide.center);
+    else if (variant === 'snake') rawBody = snake(steps, W, H, t, uid, report);
+    else rawBody = horizontal(steps, W, H, t, uid, report);
+
+    // We need to wrap step cards. Since stepCard() is internal, we regenerate
+    // the body with wrapped step cards by building an instrumented version.
+    // Strategy: build each step card individually and wrap it, then add connectors.
+    body = buildSequentialBody(steps, variant, W, H, t, uid, report, slide.center);
+  } else {
+    if (variant === 'cycle') body = cycle(steps, W, H, t, uid, report, slide.center);
+    else if (variant === 'snake') body = snake(steps, W, H, t, uid, report);
+    else body = horizontal(steps, W, H, t, uid, report);
+  }
+
+  const svgClass = sequentialReveal ? 'class="proc-seq" aria-label="Process diagram"' : 'aria-label="Process diagram"';
+  const totalAttr = sequentialReveal ? ` data-total-steps="${steps.length}"` : '';
 
   const svg = [
-    svgOpen(W, H, 'aria-label="Process diagram"'),
+    svgOpen(W, H, svgClass + totalAttr),
     `<defs>${arrowMarker(uid, t.blue)}</defs>`,
     body,
     '</svg>',
   ].join('\n');
   return { svg, problems };
+}
+
+/**
+ * Build process body with each step card wrapped in <g data-step="N">.
+ * Connectors are NOT wrapped (they stay as-is in the SVG).
+ */
+function buildSequentialBody(steps, variant, W, H, t, uid, report, centerLabel) {
+  const n = steps.length;
+
+  if (variant === 'horizontal') {
+    const gap = 46;
+    const w = Math.min(232, (W - (n - 1) * gap) / n);
+    const h = Math.min(steps.some((s) => s.detail) ? 190 : 120, H - 20);
+    const totalW = n * w + (n - 1) * gap;
+    const x0 = (W - totalW) / 2;
+    const y0 = (H - h) / 2;
+
+    const parts = [];
+    for (let i = 0; i < n; i++) {
+      const x = x0 + i * (w + gap);
+      const card = stepCard({ x, y: y0, w, h, i, step: steps[i], t, report });
+      parts.push(`<g data-step="${i + 1}">${card}</g>`);
+      if (i < n - 1) {
+        const ax = x + w + 8;
+        parts.push(`<line x1="${ax}" y1="${y0 + h / 2}" x2="${ax + gap - 16}" y2="${y0 + h / 2}" stroke="${t.blue}" stroke-width="${t.arrowWidth}" marker-end="url(#${uid})"/>`);
+      }
+    }
+    return parts.join('\n');
+  }
+
+  if (variant === 'snake') {
+    const cols = Math.ceil(n / 2);
+    const gap = 42;
+    const w = Math.min(232, (W - (cols - 1) * gap) / cols);
+    const rowGap = 64;
+    const h = Math.min(170, (H - rowGap) / 2 - 6);
+    const totalW = cols * w + (cols - 1) * gap;
+    const x0 = (W - totalW) / 2;
+    const y0 = (H - (2 * h + rowGap)) / 2;
+
+    const parts = [];
+    for (let i = 0; i < n; i++) {
+      const row = i < cols ? 0 : 1;
+      const col = row === 0 ? i : cols - 1 - (i - cols);
+      const x = x0 + col * (w + gap);
+      const y = y0 + row * (h + rowGap);
+      const card = stepCard({ x, y, w, h, i, step: steps[i], t, report });
+      parts.push(`<g data-step="${i + 1}">${card}</g>`);
+
+      if (i >= n - 1) continue;
+      const midY = y + h / 2;
+      if (row === 0 && i < cols - 1) {
+        const ax = x + w + 6;
+        parts.push(`<line x1="${ax}" y1="${midY}" x2="${ax + gap - 14}" y2="${midY}" stroke="${t.blue}" stroke-width="${t.arrowWidth}" marker-end="url(#${uid})"/>`);
+      } else if (i === cols - 1) {
+        const sx = x + w - 14;
+        const sy = y + h + 4;
+        const ey = y + h + rowGap - 6;
+        parts.push(`<path d="M ${sx} ${sy} C ${sx + 46} ${sy + (ey - sy) / 2}, ${sx + 46} ${sy + (ey - sy) / 2}, ${sx} ${ey}" fill="none" stroke="${t.blue}" stroke-width="${t.arrowWidth}" marker-end="url(#${uid})"/>`);
+      } else {
+        const ax = x - 6;
+        parts.push(`<line x1="${ax}" y1="${midY}" x2="${ax - gap + 14}" y2="${midY}" stroke="${t.blue}" stroke-width="${t.arrowWidth}" marker-end="url(#${uid})"/>`);
+      }
+    }
+    return parts.join('\n');
+  }
+
+  // cycle variant — wrap each step card, leave arrows unwrapped
+  {
+    const w = n > 5 ? 176 : 196;
+    const h = steps.some((s) => s.detail) ? 84 : 64;
+    const ry = (H - h) / 2 - 8;
+    const rx = Math.min((W - w) / 2 - 8, ry * 1.5);
+    const cx0 = W / 2;
+    const cy0 = H / 2;
+
+    const pt = (a) => ({ x: cx0 + rx * Math.cos(a), y: cy0 + ry * Math.sin(a) });
+    const centers = steps.map((_, i) => {
+      const a = -Math.PI / 2 + (2 * Math.PI * i) / n;
+      return { a, ...pt(a) };
+    });
+
+    const parts = [];
+    // curved arrows (unwrapped)
+    const halfArc = Math.min(0.24, Math.PI / n / 2.2);
+    for (let i = 0; i < n; i++) {
+      const a1 = centers[i].a;
+      const a2 = i + 1 < n ? centers[i + 1].a : centers[0].a + 2 * Math.PI;
+      const amid = (a1 + a2) / 2;
+      const p1 = pt(amid - halfArc);
+      const p2 = pt(amid + halfArc);
+      parts.push(`<path d="M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} A ${rx.toFixed(1)} ${ry.toFixed(1)} 0 0 1 ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}" fill="none" stroke="${t.blue}" stroke-width="${t.arrowWidth}" marker-end="url(#${uid})"/>`);
+    }
+
+    if (centerLabel) {
+      const c = fittedText(centerLabel, {
+        cx: cx0, cy: cy0, width: 2 * (Math.min(rx, ry) - Math.hypot(w, h) / 2) - 20, size: 19, minSize: 14, bold: true, color: t.blue, maxLines: 2,
+      });
+      parts.push(c.svg);
+    }
+
+    // step cards wrapped
+    steps.forEach((step, i) => {
+      const { x, y } = centers[i];
+      const cardParts = [];
+      cardParts.push(nodeRect({ x: x - w / 2, y: y - h / 2, w, h, fill: t.lightBlue, stroke: t.blue, strokeWidth: t.strokeWidth, rx: t.cornerRadius }));
+      const hasDetail = Boolean(step.detail);
+      const label = fittedText(`${i + 1}. ${step.label ?? ''}`, {
+        cx: x, cy: hasDetail ? y - h / 2 + 24 : y, width: w - 22, size: 16, minSize: 12, bold: true, color: t.navy, maxLines: hasDetail ? 1 : 2,
+      });
+      cardParts.push(label.svg);
+      if (!label.fits) report(`step ${i + 1} label does not fit`);
+      if (hasDetail) {
+        const detail = fittedText(step.detail, {
+          cx: x, cy: y + 12, width: w - 22, size: 12.5, minSize: 11, color: t.navy, maxLines: 2,
+        });
+        cardParts.push(detail.svg);
+        if (!detail.fits) report(`step ${i + 1} detail does not fit`);
+      }
+      parts.push(`<g data-step="${i + 1}">${cardParts.join('')}</g>`);
+    });
+    return parts.join('\n');
+  }
 }
