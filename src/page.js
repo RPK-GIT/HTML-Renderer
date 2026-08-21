@@ -469,8 +469,9 @@ function navScript() {
     });
   });
 
-  // Hierarchy click-to-focus
+  // Hierarchy click-to-focus (skipped for annotated_hierarchy slides — ann-node handles their clicks)
   document.querySelectorAll('svg.hier').forEach(function (svg) {
+    if (svg.hasAttribute('data-annotated')) return;
     var focused = null;
     svg.querySelectorAll('.h-branch').forEach(function (br) {
       br.addEventListener('click', function (e) {
